@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:kazakh_invest/src/screens/intro_screen.dart';
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Kazak Invest',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: 'Montserrat',
+        appBarTheme: AppBarTheme(
+          color: Colors.white,
+          actionsIconTheme: IconThemeData(
+            color: Color.fromRGBO(35, 35, 35, 1),
+          ),
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Scaffold(),
+      home: IntroMainScreen(),
     );
   }
 }
