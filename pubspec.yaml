@@ -25,11 +25,18 @@ dependencies:
   #file permission
   permission_handler: 5.0.1
   #for video playing
-  video_player: 0.11.1+2
+  chewie: 0.9.10
   #animated dots
   smooth_page_indicator: 0.2.0
   #url launcher
   url_launcher: 5.7.8
+
+  #html content
+  flutter_html: 0.11.1
+
+  #web view
+  webview_flutter: 1.0.6
+  flutter_staggered_grid_view: 0.3.2
 
 dev_dependencies:
   flutter_test:
@@ -49,7 +56,6 @@ flutter:
   assets:
     - lib/assets/png/
     - lib/assets/svg/
-    - lib/assets/video/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

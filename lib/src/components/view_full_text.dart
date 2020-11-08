@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'loading_widget.dart';
 
 class ViewFullScreen extends StatelessWidget {
   final String imageUrl;
@@ -26,20 +26,8 @@ class ViewFullScreen extends StatelessWidget {
                   size: 25,
                 )),
           ),
-          placeholder: (context, val) => Container(
-            height: 30,
-            width: 30,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Platform.isAndroid
-                  ? CircularProgressIndicator(
-                      strokeWidth: 2,
-                    )
-                  : CupertinoActivityIndicator(
-                      radius: 10,
-                    ),
-            ),
-          ),
+          placeholder: (context, val) =>
+              Container(height: 30, width: 30, child: LoadingWidget()),
         ),
         Text("sdfsfsdfs"),
       ],

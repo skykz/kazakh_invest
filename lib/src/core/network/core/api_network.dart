@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:kazakh_invest/src/core/conts/conts.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:provider/provider.dart';
+
+import 'package:kazakh_invest/src/core/data/conts/conts.dart';
 
 class NetworkCall {
   // next three lines makes this class a Singleton
@@ -16,61 +14,24 @@ class NetworkCall {
   factory NetworkCall() => _instance;
 
   final JsonDecoder _decoder = JsonDecoder();
+  // ignore: unused_field
   dynamic _decodedRes;
 
-  Future<dynamic> doRequestAuth(
-      {@required String path,
-      @required String method,
-      @required BuildContext context,
-      Map<String, dynamic> requestParams,
-      Map<String, dynamic> body,
-      FormData formData}) async {
-    BaseOptions options = BaseOptions(
-        baseUrl: BASE_URL, //base server url
-        method: method,
-        contentType: ContentType.parse("application/json").value);
-
-    Dio dio = Dio(options);
-    Response response;
-
-    try {
-      response =
-          await dio.request(path, queryParameters: requestParams, data: body);
-
-      // log(" - Response - ", name: " api route -- $path");
-      // print(' ==== RESPONSE: $response');
-
-      _decodedRes = _decoder.convert(response.toString());
-      return _decodedRes;
-    } on DioError catch (error) {
-      handleError(error, context);
-    }
-  }
-
-  Future<dynamic> doRequestMain(
-      {@required String path,
-      @required String method,
-      @required BuildContext context,
-      Map<String, dynamic> requestParams,
-      Map<String, dynamic> body,
-      bool isToken}) async {
+  Future<dynamic> doRequestMain({
+    @required String path,
+    @required String method,
+    @required BuildContext context,
+    Map<String, dynamic> requestParams,
+    Map<String, dynamic> body,
+  }) async {
     BaseOptions options;
-    if (isToken != false) {
-      // final value = Provider.of<UserData>(context, listen: false);
-      options = BaseOptions(
-        baseUrl: BASE_URL,
-        method: method,
-        // headers: {'Authorization': 'Bearer ' + value.accessToken},
-        contentType: 'application/json',
-      );
-    } else {
-      options = BaseOptions(
-        baseUrl: BASE_URL,
-        method: method,
-        headers: null,
-        contentType: 'application/json',
-      );
-    }
+
+    options = BaseOptions(
+      baseUrl: BASE_URL,
+      method: method,
+      headers: null,
+      contentType: 'application/json',
+    );
 
     Dio dio = Dio(options);
     Response response;
@@ -78,10 +39,10 @@ class NetworkCall {
       response =
           await dio.request(path, queryParameters: requestParams, data: body);
       log(" - Response - ", name: " api route -- $path");
-      print(" +++++ ${response.data}");
-      return response.data;
+      log(" +++++ ${_decoder.convert(response.data.toString())}");
+      return _decodedRes = _decoder.convert(response.data.toString());
     } on DioError catch (error) {
-      // print(' --- req main errors +++++++++ $error');
+      log(' --- req main errors +++++++++ $error');
       handleError(error, context);
     }
   }

@@ -9,7 +9,7 @@ class AppExpansionTile extends StatefulWidget {
     @required this.title,
     this.backgroundColor,
     this.onExpansionChanged,
-    this.children: const <Widget>[],
+    this.children,
     this.trailing,
     this.initiallyExpanded: false,
   })  : assert(initiallyExpanded != null),
@@ -18,7 +18,7 @@ class AppExpansionTile extends StatefulWidget {
   final Widget leading;
   final Widget title;
   final ValueChanged<bool> onExpansionChanged;
-  final List<Widget> children;
+  final Widget children;
   final Color backgroundColor;
   final Widget trailing;
   final bool initiallyExpanded;
@@ -145,7 +145,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
     final ThemeData theme = Theme.of(context);
     _borderColor.end = theme.dividerColor;
     _headerColor
-      ..begin = theme.textTheme.subhead.color
+      ..begin = theme.textTheme.subtitle2.color
       ..end = theme.accentColor;
     _iconColor
       ..begin = theme.unselectedWidgetColor
@@ -156,7 +156,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
     return new AnimatedBuilder(
       animation: _controller.view,
       builder: _buildChildren,
-      child: closed ? null : Column(children: widget.children),
+      child: closed ? null : widget.children,
     );
   }
 }
