@@ -74,4 +74,25 @@ class KazakhInvestOpenApi {
 
     return response;
   }
+
+  Future<dynamic> getRegionList(BuildContext context, String langtype) async {
+    dynamic response = await _networkCall.doRequestMain(
+        path: REGION_GET,
+        method: 'GET',
+        context: context,
+        requestParams: {'lang': langtype.toString()});
+
+    return response;
+  }
+
+  Future<dynamic> getSuccessHistory(
+      BuildContext context, String langtype) async {
+    dynamic response = await _networkCall.doRequestMain(
+        path: NEWS_SUCCESS_STORY,
+        method: 'GET',
+        context: context,
+        requestParams: {'lang': langtype.toString()});
+
+    return response;
+  }
 }

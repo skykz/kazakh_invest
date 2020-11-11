@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kazakh_invest/src/components/loading_widget.dart';
-import 'package:kazakh_invest/src/provider/web_view_provider.dart';
+import 'package:kazakh_invest/src/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -15,9 +16,6 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewContainerState extends State<WebViewScreen> {
-  final _key = UniqueKey();
-  Completer<WebViewController> _controller = Completer<WebViewController>();
-
   @override
   void initState() {
     super.initState();
@@ -25,48 +23,56 @@ class _WebViewContainerState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final webProvider = Provider.of<WebProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-          elevation: 2,
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios_rounded),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          title: Text(
-            "_title",
-          )),
-      body: Stack(
-        children: <Widget>[
-          WebView(
-            key: _key,
-            initialUrl: webProvider.getUrl,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (webViewCreate) {
-              _controller.complete(webViewCreate);
-            },
-            onPageFinished: (finish) {
-              webProvider.setState(false);
-            },
-          ),
-          webProvider.getIsLoadingPage
-              ? Container(
-                  alignment: FractionalOffset.center,
-                  color: Colors.grey[200].withOpacity(0.9),
-                  child: LoadingWidget())
-              : const Visibility(
-                  child: SizedBox(),
-                  visible: false,
-                )
-        ],
+    final homeProvider = Provider.of<HomeProvider>(context);
+    log('${homeProvider.getWebLink}');
+
+    return WillPopScope(
+      onWillPop: _setInitialScreen,
+      child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            WebView(
+              initialUrl: homeProvider.getWebLink,
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (webViewCreate) {
+                homeProvider.getController.complete(webViewCreate);
+                // homeProvider.setControllerNull();
+              },
+              onPageFinished: (finish) {
+                homeProvider.setState(false);
+              },
+              key: Key('${homeProvider.getWebLink}'),
+            ),
+            Positioned(
+                left: 0,
+                right: 0,
+                top: 10,
+                child: Text('${homeProvider.getWebLink}'))
+            // homeProvider.getIsLoadingPage
+            //     ? Container(
+            //         alignment: FractionalOffset.center,
+            //         color: Colors.grey[200].withOpacity(0.9),
+            //         child: LoadingWidget())
+            //     : const Visibility(
+            //         child: SizedBox(),
+            //         visible: false,
+            //       ),
+          ],
+        ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    if (_controller != null) _controller = null;
-    super.dispose();
+  // @override
+  // void dispose() {
+  //   if ( _controller != null) _controller = null;
+  //   super.dispose();
+  // }
+
+  Future<bool> _setInitialScreen() {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    homeProvider.setClearData();
+
+    homeProvider.setCurrentScreenIndex(0);
   }
 }

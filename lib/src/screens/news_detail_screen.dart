@@ -5,7 +5,8 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:kazakh_invest/src/components/loading_widget.dart';
 
 class NewsDetailScreen extends StatefulWidget {
-  NewsDetailScreen({Key key}) : super(key: key);
+  final bool isHistory;
+  NewsDetailScreen({Key key, this.isHistory}) : super(key: key);
 
   @override
   _NewsDetailScreenState createState() => _NewsDetailScreenState();
@@ -114,67 +115,133 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              expandedHeight: 200.0,
-              floating: false,
-              stretch: true,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Text(
-                  "Collapsing Toolbar",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-                background: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  fadeInDuration: Duration(milliseconds: 350),
-                  imageUrl:
-                      "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                  imageBuilder: (context, imageProvider) => Container(
-                    height: 150,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                          Colors.red,
-                          BlendMode.colorBurn,
+      backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
+      body: !widget.isHistory
+          ? NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    expandedHeight: 200.0,
+                    floating: false,
+                    stretch: true,
+                    pinned: true,
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Text(
+                        "Collapsing Toolbar",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
                         ),
                       ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    height: 30,
-                    width: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Icon(
-                        Icons.error_outline_rounded,
-                        size: 25,
+                      background: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        fadeInDuration: Duration(milliseconds: 350),
+                        imageUrl:
+                            "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: 150,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                Colors.red,
+                                BlendMode.colorBurn,
+                              ),
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Icon(
+                              Icons.error_outline_rounded,
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                        placeholder: (context, val) => const LoadingWidget(),
                       ),
                     ),
                   ),
-                  placeholder: (context, val) => LoadingWidget(),
+                ];
+              },
+              body: SingleChildScrollView(
+                child: Center(
+                  child: Html(
+                    data: htmlData,
+                  ),
+                ),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      fadeInDuration: Duration(milliseconds: 350),
+                      imageUrl:
+                          "https://invest.gov.kz/upload/iblock/1e0/1e02eb6f261df3150e91613ea282320d.jpeg",
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: height * 0.18,
+                        width: width * 0.5,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          image: DecorationImage(
+                            alignment: Alignment.centerLeft,
+                            image: imageProvider,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        height: 30,
+                        width: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: const Icon(
+                            Icons.error_outline_rounded,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, val) => SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: const LoadingWidget(),
+                      ),
+                    ),
+                    Text(
+                      'ТОО «F.K. Kunststoffe»',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Html(
+                        data: htmlData,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ];
-        },
-        body: SingleChildScrollView(
-          child: Center(
-              child: Html(
-            data: htmlData,
-          )),
-        ),
-      ),
     );
   }
 }

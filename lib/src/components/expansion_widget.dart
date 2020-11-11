@@ -11,6 +11,8 @@ class AppExpansionTile extends StatefulWidget {
     this.onExpansionChanged,
     this.children,
     this.trailing,
+    this.itemIndex,
+    this.selectedItemIndex,
     this.initiallyExpanded: false,
   })  : assert(initiallyExpanded != null),
         super(key: key);
@@ -22,6 +24,8 @@ class AppExpansionTile extends StatefulWidget {
   final Color backgroundColor;
   final Widget trailing;
   final bool initiallyExpanded;
+  final int itemIndex;
+  final int selectedItemIndex;
 
   @override
   AppExpansionTileState createState() => new AppExpansionTileState();
@@ -117,7 +121,9 @@ class AppExpansionTileState extends State<AppExpansionTile>
                 decoration: BoxDecoration(
                   border: Border(
                     left: BorderSide(
-                      color: Color.fromRGBO(96, 182, 227, 1),
+                      color: widget.itemIndex == widget.selectedItemIndex
+                          ? Color.fromRGBO(96, 182, 227, 1)
+                          : Colors.transparent,
                       width: 5,
                     ),
                   ),

@@ -23,7 +23,8 @@ class _NewScreenState extends State<NewScreen> with TickerProviderStateMixin {
       child: Scaffold(
         body: Column(
           children: [
-            Padding(
+            Container(
+              color: Colors.white,
               padding: const EdgeInsets.all(20),
               child: const Center(
                 child: Text(
@@ -39,7 +40,7 @@ class _NewScreenState extends State<NewScreen> with TickerProviderStateMixin {
               children: [
                 Expanded(
                   child: Container(
-                    color: const Color.fromRGBO(242, 242, 242, 1),
+                    color: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: TabBar(
                       isScrollable: true,
@@ -51,10 +52,10 @@ class _NewScreenState extends State<NewScreen> with TickerProviderStateMixin {
                         fontSize: 14,
                       ),
                       tabs: [
-                        Tab(
+                        const Tab(
                           text: 'Инвестиции',
                         ),
-                        Tab(
+                        const Tab(
                           text: 'Бизнес, экономика, финансы',
                         ),
                       ],

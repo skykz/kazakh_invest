@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
@@ -6,15 +8,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'expansion_widget.dart';
 
-class AppDrawer extends StatefulWidget {
+class AppDrawer extends StatelessWidget {
   final Function onTap;
   const AppDrawer({Key key, this.onTap}) : super(key: key);
 
-  @override
-  _AppDrawerState createState() => _AppDrawerState();
-}
-
-class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -32,7 +29,7 @@ class _AppDrawerState extends State<AppDrawer> {
             left: 0,
             top: 0,
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.close_rounded,
                 color: Colors.black,
                 size: 30,
@@ -59,61 +56,20 @@ class _AppDrawerState extends State<AppDrawer> {
                             itemBuilder: (BuildContext context, int index) {
                               final GlobalKey<AppExpansionTileState>
                                   expansionTile = new GlobalKey();
-
-                              // return Row(
-                              //   children: [
-                              //     Expanded(
-                              //       child: Container(
-                              //         height: 50,
-                              //         decoration: BoxDecoration(
-                              //           border: Border(
-                              //             left: BorderSide(
-                              //               color: index !=
-                              //                       provider.getCurrentPageIndex
-                              //                   ? Colors.transparent
-                              //                   : Color.fromRGBO(
-                              //                       96, 182, 227, 1),
-                              //               width: 5,
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         child: InkWell(
-                              //           onTap: () {
-                              //             provider.setCurrentScreenIndex(index);
-                              //             Navigator.of(context).pop();
-                              //           },
-                              //           child: Center(
-                              //             child: Align(
-                              //               alignment: Alignment.centerLeft,
-                              //               child: Padding(
-                              //                 padding: const EdgeInsets.only(
-                              //                     left: 45),
-                              //                 child: Text(
-                              // provider.getMainMenuData[index]
-                              //     ['title'],
-                              //                   style: TextStyle(
-                              //                     color: Colors.black,
-                              //                   ),
-                              //                   maxLines: 1,
-                              //                   overflow: TextOverflow.ellipsis,
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // );
                               return AppExpansionTile(
                                 key: expansionTile,
-                                title: Center(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 45),
-                                      child: Text(provider
-                                          .getMainMenuData[index]['title']),
+                                itemIndex: index,
+                                selectedItemIndex: provider.getMenuItemIndex,
+                                title: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 40),
+                                    child: Text(
+                                      provider.getMainMenuData[index]['title'],
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -121,13 +77,21 @@ class _AppDrawerState extends State<AppDrawer> {
                                     .accentColor
                                     .withOpacity(0.025),
                                 children: ListView.builder(
+                                    key: Key('$index'),
                                     itemCount: provider
                                         .getMainMenuData[index]['submenu']
                                         .length,
                                     shrinkWrap: true,
+                                    addAutomaticKeepAlives: true,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    itemExtent: 40,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (BuildContext context, int i) {
                                       return Row(
+                                        key: Key('$i'),
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Expanded(
                                             child: Container(
@@ -135,32 +99,37 @@ class _AppDrawerState extends State<AppDrawer> {
                                               decoration: BoxDecoration(
                                                 border: Border(
                                                   left: BorderSide(
-                                                    color: index !=
-                                                            provider
-                                                                .getCurrentPageIndex
-                                                        ? Colors.transparent
-                                                        : Color.fromRGBO(
-                                                            96, 182, 227, 1),
+                                                    color: Colors.transparent,
                                                     width: 5,
                                                   ),
                                                 ),
                                               ),
-                                              child: FlatButton(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.zero,
-                                                ),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    expansionTile.currentState
-                                                        .collapse();
-                                                  });
+                                              child: InkWell(
+                                                onTap: () {
+                                                  provider
+                                                      .setMenuItemIndex(index);
+                                                  _webSwitch(
+                                                      provider, index, i);
+                                                  Navigator.of(context).pop();
                                                 },
-                                                child: Text(
-                                                  provider.getMainMenuData[
-                                                          index]['submenu'][i]
-                                                      ['title'],
-                                                  textAlign: TextAlign.center,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    left: 50,
+                                                    top: 10,
+                                                    bottom: 10,
+                                                  ),
+                                                  child: Text(
+                                                    provider.getMainMenuData[
+                                                            index]['submenu'][i]
+                                                        ['title'],
+                                                    textAlign: TextAlign.start,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 13),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -220,7 +189,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15),
-                                      child: Text(
+                                      child: const Text(
                                         'Направить запрос',
                                         style: TextStyle(
                                           color: Colors.white,
@@ -244,5 +213,21 @@ class _AppDrawerState extends State<AppDrawer> {
         ],
       ),
     );
+  }
+
+  _webSwitch(HomeProvider provider, int index, int i) {
+    if (provider.getMainMenuData[index]['submenu'][i]['link'] == 'cmd://news') {
+      provider.setCurrentScreenIndex(1);
+    } else if (provider.getMainMenuData[index]['submenu'][i]['title'] ==
+        'Истории успеха') {
+      provider.setCurrentScreenIndex(2);
+    } else {
+      provider.setControllerNull();
+
+      provider.setCurrentScreenIndex(5);
+      provider
+          .setWebLink(provider.getMainMenuData[index]['submenu'][i]['link']);
+      provider.setCurrentScreenIndex(4);
+    }
   }
 }

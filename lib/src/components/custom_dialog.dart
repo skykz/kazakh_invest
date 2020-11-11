@@ -52,7 +52,7 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                this.widget.title,
+                setTitle(homeProvider),
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 17,
@@ -197,5 +197,21 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
           );
         }),
         (Route route) => false);
+  }
+
+  setTitle(HomeProvider val) {
+    switch (val.getLangType) {
+      case 'ru':
+        return "Выберите язык";
+        break;
+      case 'en':
+        return "Select language";
+        break;
+      case 'kz':
+        return "Тілді таңданыз";
+        break;
+      default:
+        return null;
+    }
   }
 }

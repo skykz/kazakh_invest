@@ -9,11 +9,14 @@ import 'package:kazakh_invest/src/components/sliders_widget.dart';
 import 'package:kazakh_invest/src/core/data/models/dialog_type.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
 import 'package:kazakh_invest/src/screens/news_detail_screen.dart';
-import 'package:kazakh_invest/src/screens/news_screen.dart';
+import 'package:kazakh_invest/src/screens/regions_list_screen.dart';
 import 'package:kazakh_invest/src/screens/web_view_screen.dart';
 import 'package:kazakh_invest/src/utils/common.dart';
 import 'package:provider/provider.dart';
 import 'package:kazakh_invest/src/components/loading_widget.dart';
+
+import 'history_success_screen.dart';
+import 'news_screen.dart';
 
 class IntroMainScreen extends StatefulWidget {
   IntroMainScreen({Key key}) : super(key: key);
@@ -41,39 +44,45 @@ class _IntroMainScreenState extends State<IntroMainScreen>
     _offsetFloat.addListener(() {
       setState(() {});
     });
-
     _controller.forward();
-    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
-    homeProvider.getSlidersContent(context);
-    homeProvider.getMainVideoData(context);
-    homeProvider.getMainMenu(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+      homeProvider.getSlidersContent(context);
+      homeProvider.getMainVideoData(context);
+      homeProvider.getMainMenu(context);
+    });
+
     super.initState();
   }
 
   List<Widget> _bodyComponents = [
     SlidersWidget(),
-    NewsDetailScreen(),
     NewScreen(),
-    NewScreen(),
+    HistorySuccessScreen(),
+    RegionListScreen(),
     WebViewScreen(),
+    LoadingWidget(),
   ];
+
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
+    final width = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: homeProvider.getSliderContent == null
           ? Container(
-              color: Colors.grey,
-              child: Center(
+              color: Colors.white,
+              child: const Center(
                 child: LoadingWidget(),
-              ))
+              ),
+            )
           : Scaffold(
               key: _scaffoldKey,
               appBar: AppBar(
                 elevation: 10,
                 leading: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.menu_rounded,
                     color: Color.fromRGBO(35, 35, 35, 1),
                   ),
@@ -100,21 +109,27 @@ class _IntroMainScreenState extends State<IntroMainScreen>
                           ),
                         ),
                       ),
-                      errorWidget: (context, url, error) => Container(
-                        height: 30,
-                        width: 30,
+                      errorWidget: (context, url, error) => SizedBox(
+                        height: 20,
+                        width: 20,
                         child: Padding(
                           padding: const EdgeInsets.all(8),
-                          child: Icon(
+                          child: const Icon(
                             Icons.error_outline_rounded,
                             size: 25,
                           ),
                         ),
                       ),
-                      placeholder: (context, val) => LoadingWidget(),
+                      placeholder: (context, val) => Center(
+                        child: const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: LoadingWidget(),
+                        ),
+                      ),
                     ),
                     const SizedBox(
-                      width: 15,
+                      width: 10,
                     ),
                     Image.asset(
                       'lib/assets/png/ornament.png',
@@ -131,7 +146,7 @@ class _IntroMainScreenState extends State<IntroMainScreen>
                 ),
                 actions: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    width: width * 0.22,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 13, horizontal: 10),
@@ -165,11 +180,41 @@ class _IntroMainScreenState extends State<IntroMainScreen>
               drawer: AppDrawer(),
               body: Consumer<HomeProvider>(builder: (context, provider, child) {
                 return SlideTransition(
-                  child: _bodyComponents[provider.getCurrentPageIndex],
+                  child: _bodyComponents[homeProvider.getCurrentPageIndex],
                   position: _offsetFloat,
                 );
               }),
             ),
+    );
+  }
+}
+
+class Screen2Builder extends StatelessWidget {
+  const Screen2Builder({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      initialRoute: 'news',
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case 'news':
+            return MaterialPageRoute(
+                builder: (context) => NewsDetailScreen(
+                      isHistory: true,
+                    ),
+                settings: settings);
+            break;
+
+          case 'news-detail':
+            return MaterialPageRoute(
+                builder: (context) => WebViewScreen(), settings: settings);
+            break;
+
+          default:
+            throw Exception("Invalid route");
+        }
+      },
     );
   }
 }

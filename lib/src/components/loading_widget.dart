@@ -14,6 +14,7 @@ class LoadingWidget extends StatelessWidget {
       child: Platform.isAndroid
           ? const CircularProgressIndicator(
               strokeWidth: 2,
+              backgroundColor: Colors.white,
             )
           : const CupertinoActivityIndicator(
               radius: 15,

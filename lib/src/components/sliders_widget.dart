@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -37,11 +38,6 @@ class _SlidersWidgetState extends State<SlidersWidget> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
 
@@ -62,20 +58,20 @@ class _SlidersWidgetState extends State<SlidersWidget> {
               ),
             ),
           ),
-          errorWidget: (context, url, error) => Container(
+          errorWidget: (context, url, error) => const SizedBox(
             height: 30,
             width: 30,
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Icon(
+              child: const Icon(
                 Icons.error_outline_rounded,
                 size: 25,
               ),
             ),
           ),
-          placeholder: (context, val) => Container(
-            height: 30,
-            width: 30,
+          placeholder: (context, val) => const SizedBox(
+            height: 25,
+            width: 25,
             child: LoadingWidget(),
           ),
         ),
@@ -100,7 +96,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
               effect: WormEffect(
                 dotHeight: 10,
                 spacing: 20,
-                dotColor: Color.fromRGBO(96, 182, 227, 0.45),
+                dotColor: const Color.fromRGBO(96, 182, 227, 0.45),
                 activeDotColor: Colors.white,
                 dotWidth: 10,
               ), // your preferred effect
@@ -114,7 +110,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
 
   _builFirstScreen() {
     final height = MediaQuery.of(context).size.height;
-    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    final homeProvider = Provider.of<HomeProvider>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -123,7 +119,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
           padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
           child: Text(
             '${homeProvider.getSliderContent['title']}',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 25,
             ),
@@ -140,7 +136,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                   alignment: Alignment.bottomCenter,
                   child: Text(
                     '${homeProvider.getMainVideo['title']}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                     ),
@@ -161,6 +157,12 @@ class _SlidersWidgetState extends State<SlidersWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               BlurContainerWidget(
+                onTap: () {
+                  homeProvider.setCurrentScreenIndex(4);
+                  // log("${homeProvider.getSliderContent['main_slider'][0]['link']}");
+                  homeProvider.setWebLink(
+                      homeProvider.getSliderContent['main_slider'][0]['link']);
+                },
                 svgPath: 'lib/assets/svg/layers.svg',
                 title:
                     '${homeProvider.getSliderContent['main_slider'][0]['title']}',
@@ -169,6 +171,11 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                 height: 10,
               ),
               BlurContainerWidget(
+                onTap: () {
+                  homeProvider.setCurrentScreenIndex(4);
+                  homeProvider.setWebLink(
+                      homeProvider.getSliderContent['main_slider'][1]['link']);
+                },
                 svgPath: 'lib/assets/svg/line_chart.svg',
                 title:
                     '${homeProvider.getSliderContent['main_slider'][1]['title']}',
@@ -177,6 +184,11 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                 height: 10,
               ),
               BlurContainerWidget(
+                onTap: () {
+                  homeProvider.setCurrentScreenIndex(4);
+                  homeProvider.setWebLink(
+                      homeProvider.getSliderContent['main_slider'][2]['link']);
+                },
                 svgPath: 'lib/assets/svg/download.svg',
                 title:
                     '${homeProvider.getSliderContent['main_slider'][2]['title']}',
@@ -229,7 +241,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                         child: Text(
                           homeProvider.getSliderContent['secondry_slider'][0]
                               ['title'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                           ),
@@ -240,7 +252,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                         child: Text(
                           homeProvider.getSliderContent['secondry_slider'][0]
                               ['sub_title'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -250,7 +262,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                       Text(
                         homeProvider.getSliderContent['secondry_slider'][0]
                             ['content'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 13,
                           color: Colors.white,
                         ),
@@ -303,7 +315,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                         child: Text(
                           homeProvider.getSliderContent['secondry_slider'][1]
                               ['sub_title'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -313,7 +325,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                       Text(
                         homeProvider.getSliderContent['secondry_slider'][1]
                             ['content'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 13,
                           color: Colors.white,
                         ),
@@ -354,7 +366,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                           Text(
                             homeProvider.getSliderContent['secondry_slider'][2]
                                 ['title'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.white,
                             ),
@@ -365,7 +377,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                         children: [
                           CachedNetworkImage(
                             fit: BoxFit.cover,
-                            fadeInDuration: Duration(milliseconds: 350),
+                            fadeInDuration: const Duration(milliseconds: 350),
                             imageUrl:
                                 "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
                             imageBuilder: (context, imageProvider) => Container(
@@ -379,9 +391,10 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                                 ),
                               ),
                             ),
-                            errorWidget: (context, url, error) => Container(
-                              height: 30,
-                              width: 30,
+                            errorWidget: (context, url, error) =>
+                                const SizedBox(
+                              height: 60,
+                              width: 80,
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Icon(
@@ -390,8 +403,13 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                                 ),
                               ),
                             ),
-                            placeholder: (context, val) => Container(
-                                height: 30, width: 30, child: LoadingWidget()),
+                            placeholder: (context, val) => Center(
+                              child: const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: LoadingWidget(),
+                              ),
+                            ),
                           ),
                           Expanded(
                             child: Padding(
@@ -402,7 +420,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                                     homeProvider
                                             .getSliderContent['secondry_slider']
                                         [2]['content'],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 13,
                                       color: Colors.white,
                                     ),
@@ -427,7 +445,12 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        homeProvider.setCurrentScreenIndex(4);
+                                        homeProvider.setWebLink(
+                                            homeProvider.getSliderContent[
+                                                'secondry_slider'][2]['link']);
+                                      },
                                     ),
                                   )
                                 ],
@@ -459,7 +482,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
             padding: const EdgeInsets.only(bottom: 50, top: 20),
             child: Text(
               '${homeProvider.getSliderContent['secondry_title']}',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 25,
               ),
@@ -494,7 +517,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                               Text(
                                 homeProvider.getSliderContent['items'][index]
                                     ['VALUE'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
