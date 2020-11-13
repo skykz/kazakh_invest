@@ -16,20 +16,20 @@ class ViewFullScreen extends StatelessWidget {
           fit: BoxFit.cover,
           fadeInDuration: Duration(milliseconds: 350),
           imageUrl: imageUrl,
-          errorWidget: (context, url, error) => Container(
+          errorWidget: (context, url, error) => const SizedBox(
             height: 30,
             width: 30,
             child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Icon(
-                  Icons.error_outline_rounded,
-                  size: 25,
-                )),
+              padding: const EdgeInsets.all(8),
+              child: Icon(
+                Icons.error_outline_rounded,
+                size: 25,
+              ),
+            ),
           ),
           placeholder: (context, val) =>
-              Container(height: 30, width: 30, child: LoadingWidget()),
+              const SizedBox(height: 30, width: 30, child: LoadingWidget()),
         ),
-        Text("sdfsfsdfs"),
       ],
     );
   }

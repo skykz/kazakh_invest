@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,10 +9,10 @@ import 'package:kazakh_invest/src/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'blur_container_widget.dart';
-import 'bounce_button.dart';
-import 'full_video_screen.dart';
-import 'loading_widget.dart';
+import '../components/blur_container_widget.dart';
+import '../components/bounce_button.dart';
+import '../components/full_video_screen.dart';
+import '../components/loading_widget.dart';
 
 class SlidersWidget extends StatefulWidget {
   const SlidersWidget({Key key}) : super(key: key);
@@ -158,8 +157,9 @@ class _SlidersWidgetState extends State<SlidersWidget> {
             children: [
               BlurContainerWidget(
                 onTap: () {
+                  homeProvider.setControllerNull();
+
                   homeProvider.setCurrentScreenIndex(4);
-                  // log("${homeProvider.getSliderContent['main_slider'][0]['link']}");
                   homeProvider.setWebLink(
                       homeProvider.getSliderContent['main_slider'][0]['link']);
                 },
@@ -172,6 +172,8 @@ class _SlidersWidgetState extends State<SlidersWidget> {
               ),
               BlurContainerWidget(
                 onTap: () {
+                  homeProvider.setControllerNull();
+
                   homeProvider.setCurrentScreenIndex(4);
                   homeProvider.setWebLink(
                       homeProvider.getSliderContent['main_slider'][1]['link']);
@@ -185,6 +187,8 @@ class _SlidersWidgetState extends State<SlidersWidget> {
               ),
               BlurContainerWidget(
                 onTap: () {
+                  homeProvider.setControllerNull();
+
                   homeProvider.setCurrentScreenIndex(4);
                   homeProvider.setWebLink(
                       homeProvider.getSliderContent['main_slider'][2]['link']);
@@ -446,10 +450,19 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        homeProvider.setCurrentScreenIndex(4);
-                                        homeProvider.setWebLink(
-                                            homeProvider.getSliderContent[
-                                                'secondry_slider'][2]['link']);
+                                        if (homeProvider
+                                                .getSliderContent[
+                                                    'secondry_slider'][2]
+                                                    ['link']
+                                                .length !=
+                                            0) {
+                                          homeProvider.setControllerNull();
+
+                                          homeProvider.setCurrentScreenIndex(4);
+                                          homeProvider.setWebLink(homeProvider
+                                                  .getSliderContent[
+                                              'secondry_slider'][2]['link']);
+                                        }
                                       },
                                     ),
                                   )

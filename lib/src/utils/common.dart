@@ -41,19 +41,3 @@ setLangType(String val) {
       break;
   }
 }
-
-// setTextApp(String txt,){
-//    switch (val) {
-//     case "ru":
-//       return "RUS";
-//       break;
-//     case "en":
-//       return "ENG";
-//       break;
-//     case "kz":
-//       return "KAZ";
-//       break;
-//     default:
-//       break;
-//   }
-// }

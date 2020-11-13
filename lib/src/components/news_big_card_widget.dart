@@ -22,35 +22,38 @@ class NewsBigCardWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  fadeInDuration: Duration(milliseconds: 350),
-                  imageUrl: imageUrl,
-                  imageBuilder: (context, imageProvider) => Container(
-                        height: 150,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(
-                              Colors.red,
-                              BlendMode.colorBurn,
-                            ),
-                          ),
-                        ),
+                fit: BoxFit.cover,
+                height: 135,
+                width: double.infinity,
+                fadeInDuration: Duration(milliseconds: 350),
+                imageUrl: imageUrl,
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 150,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        Colors.red,
+                        BlendMode.colorBurn,
                       ),
-                  errorWidget: (context, url, error) => Container(
-                        height: 30,
-                        width: 30,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.error_outline_rounded,
-                            size: 25,
-                          ),
-                        ),
-                      ),
-                  placeholder: (context, val) => LoadingWidget()),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => const SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: const Icon(
+                      Icons.error_outline_rounded,
+                      size: 25,
+                    ),
+                  ),
+                ),
+                placeholder: (context, val) => const LoadingWidget(),
+              ),
             ),
             Positioned(
               bottom: 0,
@@ -89,7 +92,7 @@ class NewsBigCardWidget extends StatelessWidget {
                       ),
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontSize: 14,

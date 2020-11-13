@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:kazakh_invest/src/components/loading_widget.dart';
 import 'package:kazakh_invest/src/components/main_white_card.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
-import 'package:kazakh_invest/src/screens/news_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class HistorySuccessScreen extends StatefulWidget {

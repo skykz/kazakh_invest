@@ -39,7 +39,7 @@ class NewsCardWidgetRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                errorWidget: (context, url, error) => Container(
+                errorWidget: (context, url, error) => const SizedBox(
                   height: 30,
                   width: 30,
                   child: Padding(
@@ -50,7 +50,7 @@ class NewsCardWidgetRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                placeholder: (context, val) => LoadingWidget(),
+                placeholder: (context, val) => const LoadingWidget(),
               ),
             ),
             Expanded(
@@ -64,7 +64,7 @@ class NewsCardWidgetRow extends StatelessWidget {
                   children: [
                     Text(
                       date,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
                       ),

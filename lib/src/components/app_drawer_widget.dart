@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
@@ -189,8 +187,8 @@ class AppDrawer extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15),
-                                      child: const Text(
-                                        'Направить запрос',
+                                      child: Text(
+                                        setPhoneString(context),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
@@ -224,10 +222,27 @@ class AppDrawer extends StatelessWidget {
     } else {
       provider.setControllerNull();
 
-      provider.setCurrentScreenIndex(5);
+      // provider.setCurrentScreenIndex(5);
       provider
           .setWebLink(provider.getMainMenuData[index]['submenu'][i]['link']);
       provider.setCurrentScreenIndex(4);
+    }
+  }
+
+  String setPhoneString(BuildContext context) {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    switch (homeProvider.getLangType) {
+      case 'ru':
+        return "Направить запрос";
+        break;
+      case 'en':
+        return "Send request";
+        break;
+      case 'kz':
+        return "Сұраныс жіберу";
+        break;
+      default:
+        return null;
     }
   }
 }

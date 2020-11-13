@@ -46,15 +46,15 @@ class AppExpansionTileState extends State<AppExpansionTile>
   @override
   void initState() {
     super.initState();
-    _controller = new AnimationController(duration: _kExpand, vsync: this);
+    _controller = AnimationController(duration: _kExpand, vsync: this);
     _easeOutAnimation =
-        new CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+        CurvedAnimation(parent: _controller, curve: Curves.easeOut);
     _easeInAnimation =
-        new CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-    _borderColor = new ColorTween();
-    _headerColor = new ColorTween();
-    _iconColor = new ColorTween();
-    _backgroundColor = new ColorTween();
+        CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _borderColor = ColorTween();
+    _headerColor = ColorTween();
+    _iconColor = ColorTween();
+    _backgroundColor = ColorTween();
 
     _isExpanded =
         PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
@@ -103,14 +103,15 @@ class AppExpansionTileState extends State<AppExpansionTile>
     final Color borderSideColor =
         _borderColor.evaluate(_easeOutAnimation) ?? Colors.transparent;
 
-    return new Container(
-      decoration: new BoxDecoration(
-          color: _backgroundColor.evaluate(_easeOutAnimation) ??
-              Colors.transparent,
-          border: new Border(
-            top: new BorderSide(color: borderSideColor),
-            bottom: new BorderSide(color: borderSideColor),
-          )),
+    return Container(
+      decoration: BoxDecoration(
+        color:
+            _backgroundColor.evaluate(_easeOutAnimation) ?? Colors.transparent,
+        border: Border(
+          top: BorderSide(color: borderSideColor),
+          bottom: BorderSide(color: borderSideColor),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -122,7 +123,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
                   border: Border(
                     left: BorderSide(
                       color: widget.itemIndex == widget.selectedItemIndex
-                          ? Color.fromRGBO(96, 182, 227, 1)
+                          ? const Color.fromRGBO(96, 182, 227, 1)
                           : Colors.transparent,
                       width: 5,
                     ),
@@ -159,7 +160,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
     _backgroundColor.end = widget.backgroundColor;
 
     final bool closed = !_isExpanded && _controller.isDismissed;
-    return new AnimatedBuilder(
+    return AnimatedBuilder(
       animation: _controller.view,
       builder: _buildChildren,
       child: closed ? null : widget.children,

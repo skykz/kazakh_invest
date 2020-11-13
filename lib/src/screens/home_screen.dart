@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kazakh_invest/src/components/app_drawer_widget.dart';
-import 'package:kazakh_invest/src/components/sliders_widget.dart';
+import 'package:kazakh_invest/src/screens/sliders_screens.dart';
 import 'package:kazakh_invest/src/core/data/models/dialog_type.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
 import 'package:kazakh_invest/src/screens/news_detail_screen.dart';

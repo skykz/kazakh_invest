@@ -84,13 +84,14 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
                           onTap: () {
                             homeProvider.setLangType('kz');
                             _setLangType();
+                            homeProvider.setCurrentScreenIndex(0);
                           },
-                          title: Text(
+                          title: const Text(
                             'Қазақша',
                             style: TextStyle(),
                           ),
                           trailing: homeProvider.getLangType == 'kz'
-                              ? Icon(
+                              ? const Icon(
                                   Icons.check_circle_outline_rounded,
                                   color: Colors.blueAccent,
                                 )
@@ -118,13 +119,14 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
                           onTap: () {
                             homeProvider.setLangType('ru');
                             _setLangType();
+                            homeProvider.setCurrentScreenIndex(0);
                           },
-                          title: Text(
+                          title: const Text(
                             'Русский',
                             style: TextStyle(),
                           ),
                           trailing: homeProvider.getLangType == 'ru'
-                              ? Icon(
+                              ? const Icon(
                                   Icons.check_circle_outline_rounded,
                                   color: Colors.blueAccent,
                                 )
@@ -152,13 +154,14 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
                           onTap: () {
                             homeProvider.setLangType('en');
                             _setLangType();
+                            homeProvider.setCurrentScreenIndex(0);
                           },
-                          title: Text(
+                          title: const Text(
                             'English',
                             style: TextStyle(),
                           ),
                           trailing: homeProvider.getLangType == 'en'
-                              ? Icon(
+                              ? const Icon(
                                   Icons.check_circle_outline_rounded,
                                   color: Colors.blueAccent,
                                 )

@@ -39,19 +39,23 @@ class CardMainWhite extends StatelessWidget {
             errorWidget: (context, url, error) => Container(
               height: 30,
               width: 30,
-              child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Icon(
-                    Icons.error_outline_rounded,
-                    size: 25,
-                  )),
+              child: const Padding(
+                padding: const EdgeInsets.all(8),
+                child: Icon(
+                  Icons.error_outline_rounded,
+                  size: 25,
+                ),
+              ),
             ),
-            placeholder: (context, val) =>
-                Container(height: 30, width: 30, child: LoadingWidget()),
+            placeholder: (context, val) => const SizedBox(
+              height: 30,
+              width: 30,
+              child: LoadingWidget(),
+            ),
           ),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
             ),

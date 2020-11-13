@@ -18,8 +18,6 @@ class MainCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
@@ -58,7 +56,7 @@ class MainCardWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                errorWidget: (context, url, error) => Container(
+                errorWidget: (context, url, error) => SizedBox(
                   height: 30,
                   width: 30,
                   child: Padding(

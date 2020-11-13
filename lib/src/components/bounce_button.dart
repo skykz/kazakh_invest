@@ -91,7 +91,7 @@ class _BouncingWidgetState extends State<BouncingWidget>
                       color: Colors.transparent,
                     ),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Icon(
                       Icons.play_arrow_rounded,
                       size: 30,
@@ -113,58 +113,3 @@ class _BouncingWidgetState extends State<BouncingWidget>
     super.dispose();
   }
 }
-
-// class BouncingButton extends StatefulWidget {
-//   @override
-//   _BouncingButtonState createState() => _BouncingButtonState();
-// }
-
-// class _BouncingButtonState extends State<BouncingButton>
-//     with SingleTickerProviderStateMixin {
-//   double _scale;
-//   AnimationController _controller;
-//   @override
-//   void initState() {
-//     _controller = AnimationController(
-//       vsync: this,
-//       duration: Duration(
-//         milliseconds: 300,
-//       ),
-//       lowerBound: 0.0,
-//       upperBound: 0.9,
-//     )..addListener(() {
-//         setState(() {});
-//       });
-//     super.initState();
-//   }
-
-//   @override
-//   void dispose() {
-//     super.dispose();
-//     _controller.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     _scale = 1 - _controller.value;
-//     return Center(
-//       child: GestureDetector(
-//         onTapDown: _tapDown,
-//         onTapUp: _tapUp,
-//         child: Transform.scale(
-//           scale: _scale,
-//           child: _animatedButton(),
-//         ),
-//       ),
-//     );
-//   }
-
-//   void _tapDown(TapDownDetails details) {
-//     _controller.forward();
-//     log("message");
-//   }
-
-//   void _tapUp(TapUpDetails details) {
-//     _controller.reverse();
-//   }
-// }
