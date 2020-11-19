@@ -1,1 +1,1 @@
-enum DialogType { LangType }
+enum DialogType { LangType, WebView }

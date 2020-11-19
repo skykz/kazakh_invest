@@ -3,6 +3,7 @@ import 'package:kazakh_invest/src/core/data/models/dialog_type.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
 import 'package:kazakh_invest/src/screens/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomActionDialog extends StatefulWidget {
   final String title;
@@ -12,6 +13,7 @@ class CustomActionDialog extends StatefulWidget {
   final Color color;
   final String confirmOptionText;
   final Widget container;
+  final String link;
 
   CustomActionDialog({
     @required this.title,
@@ -19,6 +21,7 @@ class CustomActionDialog extends StatefulWidget {
     @required this.dialogType,
     this.color,
     this.container,
+    this.link,
     this.cancelOptionText,
     this.confirmOptionText,
   });
@@ -57,6 +60,7 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
                   fontWeight: FontWeight.w500,
                   fontSize: 17,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             Padding(
@@ -176,6 +180,61 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
           ],
         );
         break;
+      case DialogType.WebView:
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                setLinkTitle(homeProvider),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 17,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FlatButton(
+                  color: Colors.grey[400],
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                  child: Text(
+                    'No',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  color: Colors.green[300],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                  onPressed: () {
+                    launch(widget.link);
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text(
+                    'Open',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        );
+        break;
       default:
         return const SizedBox();
     }
@@ -212,6 +271,22 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
         break;
       case 'kz':
         return "Тілді таңданыз";
+        break;
+      default:
+        return null;
+    }
+  }
+
+  setLinkTitle(HomeProvider val) {
+    switch (val.getLangType) {
+      case 'ru':
+        return "Хотите открыть этот пост на браузере?";
+        break;
+      case 'en':
+        return "Want to open this post on a browser?";
+        break;
+      case 'kz':
+        return "Бұл сілтемені Браузерде ашқыңыз келе ме?";
         break;
       default:
         return null;

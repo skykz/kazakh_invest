@@ -9,10 +9,12 @@ class AppExpansionTile extends StatefulWidget {
     @required this.title,
     this.backgroundColor,
     this.onExpansionChanged,
-    this.children,
+    this.child,
     this.trailing,
     this.itemIndex,
     this.selectedItemIndex,
+    this.isEmpty,
+    this.onTapped,
     this.initiallyExpanded: false,
   })  : assert(initiallyExpanded != null),
         super(key: key);
@@ -20,12 +22,14 @@ class AppExpansionTile extends StatefulWidget {
   final Widget leading;
   final Widget title;
   final ValueChanged<bool> onExpansionChanged;
-  final Widget children;
+  final Widget child;
   final Color backgroundColor;
   final Widget trailing;
   final bool initiallyExpanded;
   final int itemIndex;
   final int selectedItemIndex;
+  final bool isEmpty;
+  final Function onTapped;
 
   @override
   AppExpansionTileState createState() => new AppExpansionTileState();
@@ -130,7 +134,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
                   ),
                 ),
                 child: InkWell(
-                  onTap: toggle,
+                  onTap: widget.isEmpty ? widget.onTapped : toggle,
                   child: widget.title,
                 ),
               ),
@@ -163,7 +167,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
     return AnimatedBuilder(
       animation: _controller.view,
       builder: _buildChildren,
-      child: closed ? null : widget.children,
+      child: closed ? null : widget.child,
     );
   }
 }

@@ -24,48 +24,57 @@ class _RegionListScreenState extends State<HistorySuccessScreen> {
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
-
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            color: const Color.fromRGBO(246, 246, 246, 1),
-            padding: const EdgeInsets.symmetric(vertical: 32),
-            child: Center(
-              child: Text(
-                setTitle(homeProvider),
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: () {
+        homeProvider.setCurrentScreenIndex(0);
+      },
+      child: Scaffold(
+        backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              color: const Color.fromRGBO(246, 246, 246, 1),
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: Center(
+                child: Text(
+                  setTitle(homeProvider),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          homeProvider.getMainSuccessHistoryList.length == 0
-              ? LoadingWidget()
-              : Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: homeProvider.getMainSuccessHistoryList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: MainCardWidget(
-                            imageUrl: homeProvider
-                                .getMainSuccessHistoryList[index]['logo'],
-                            title: homeProvider.getMainSuccessHistoryList[index]
-                                ['name'],
-                            isBigCard: true,
-                            onTap: () {
-                              Navigator.of(context).pushNamed("/news");
-                            },
-                          ),
-                        );
-                      }),
-                )
-        ],
+            homeProvider.getMainSuccessHistoryList.length == 0
+                ? const LoadingWidget()
+                : Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:
+                            homeProvider.getMainSuccessHistoryList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: MainCardWidget(
+                              imageUrl: homeProvider
+                                  .getMainSuccessHistoryList[index]['logo'],
+                              title: homeProvider
+                                  .getMainSuccessHistoryList[index]['name'],
+                              isBigCard: true,
+                              onTap: () {
+                                homeProvider.setSuccesHistoryId(int.tryParse(
+                                    homeProvider
+                                            .getMainSuccessHistoryList[index]
+                                        ['id']));
+                                homeProvider.setCurrentScreenIndex(5);
+                              },
+                            ),
+                          );
+                        }),
+                  )
+          ],
+        ),
       ),
     );
   }

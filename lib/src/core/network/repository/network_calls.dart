@@ -22,6 +22,8 @@ class KazakhInvestOpenApi {
   static const NEWS_GET_REGION_SECTION = '/news/getRegionSection';
   static const NEWS_GET = '/news/get';
   static const NEWS_GET_BY_ID = '/news/getById';
+  static const NEWS_GET_BY_CATEGORY = '/news/getByCategory';
+  static const NEWS_GET_CATEGORY = '/news/categories';
 
   // Regions
   static const REGION_GET = '/regions/get';
@@ -37,6 +39,18 @@ class KazakhInvestOpenApi {
 
   //Video
   static const GET_VIDEO = '/main/video';
+
+  //Our secret Api
+  static const DO_SECRET_API = '/secret';
+
+  Future<dynamic> getSecret(BuildContext context) async {
+    dynamic response = await _networkCall.doRequestMain(
+      path: DO_SECRET_API,
+      method: 'GET',
+      context: context,
+    );
+    return response;
+  }
 
   Future<dynamic> getSliders(BuildContext context, String langtype) async {
     dynamic response = await _networkCall.doRequestMain(
@@ -92,6 +106,61 @@ class KazakhInvestOpenApi {
         method: 'GET',
         context: context,
         requestParams: {'lang': langtype.toString()});
+
+    return response;
+  }
+
+  Future<dynamic> getCategeoryNews(
+      BuildContext context, String langtype) async {
+    dynamic response = await _networkCall.doRequestMain(
+        path: NEWS_GET_CATEGORY,
+        method: 'GET',
+        context: context,
+        requestParams: {'lang': langtype.toString()});
+
+    return response;
+  }
+
+  Future<dynamic> getCategoryById(
+      BuildContext context, String langtype, int categoryId) async {
+    dynamic response = await _networkCall.doRequestMain(
+        path: NEWS_GET_BY_CATEGORY,
+
+        ///getByCategory
+        method: 'GET',
+        context: context,
+        requestParams: {
+          'lang': langtype.toString(),
+          'category_id': categoryId,
+        });
+
+    return response;
+  }
+
+  Future<dynamic> getSuccessHistoryById(
+      BuildContext context, String langtype, int id) async {
+    dynamic response = await _networkCall.doRequestMain(
+        path: NEWS_SUCCESS_STORY_BY_ID,
+        method: 'GET',
+        context: context,
+        requestParams: {
+          'lang': langtype.toString(),
+          'id': id,
+        });
+
+    return response;
+  }
+
+  Future<dynamic> getNewsDetailById(
+      BuildContext context, String langtype, int id) async {
+    dynamic response = await _networkCall.doRequestMain(
+        path: NEWS_GET_BY_ID,
+        method: 'GET',
+        context: context,
+        requestParams: {
+          'lang': langtype.toString(),
+          'id': id,
+        });
 
     return response;
   }

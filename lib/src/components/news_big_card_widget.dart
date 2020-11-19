@@ -8,52 +8,68 @@ class NewsBigCardWidget extends StatelessWidget {
   final String title;
   final String imageUrl;
   final String date;
-  const NewsBigCardWidget({Key key, this.title, this.imageUrl, this.date})
+  final Function onTap;
+  const NewsBigCardWidget(
+      {Key key, this.title, this.imageUrl, this.date, this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Stack(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                height: 135,
-                width: double.infinity,
-                fadeInDuration: Duration(milliseconds: 350),
-                imageUrl: imageUrl,
-                imageBuilder: (context, imageProvider) => Container(
-                  height: 150,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: imageProvider,
+              child: imageUrl != null
+                  ? CachedNetworkImage(
                       fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                        Colors.red,
-                        BlendMode.colorBurn,
+                      height: height * 0.22,
+                      width: double.infinity,
+                      fadeInDuration: Duration(milliseconds: 350),
+                      imageUrl: imageUrl,
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: height * 0.22,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey[200],
+                                spreadRadius: 1,
+                                blurRadius: 10,
+                              )
+                            ]),
+                      ),
+                      errorWidget: (context, url, error) => const SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: const Icon(
+                            Icons.error_outline_rounded,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, val) => const LoadingWidget(),
+                    )
+                  : Container(
+                      height: height * 0.22,
+                      width: double.infinity,
+                      decoration: BoxDecoration(),
+                      child: const Icon(
+                        Icons.no_photography_rounded,
+                        size: 50,
                       ),
                     ),
-                  ),
-                ),
-                errorWidget: (context, url, error) => const SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: const Icon(
-                      Icons.error_outline_rounded,
-                      size: 25,
-                    ),
-                  ),
-                ),
-                placeholder: (context, val) => const LoadingWidget(),
-              ),
             ),
             Positioned(
               bottom: 0,

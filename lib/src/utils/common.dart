@@ -8,10 +8,9 @@ Future<bool> displayCustomDialog(
   DialogType dialogType,
   bool barrierDismissible,
   Widget containerWidget,
-  Function dofunc, [
-  String negativeText,
-  String positiveText,
-]) {
+  String link,
+  Function dofunc,
+) {
   return showDialog(
     context: context,
     barrierDismissible: barrierDismissible,
@@ -20,8 +19,7 @@ Future<bool> displayCustomDialog(
       dialogType: dialogType,
       container: containerWidget,
       onPressed: dofunc,
-      cancelOptionText: negativeText,
-      confirmOptionText: positiveText,
+      link: link,
     ),
   );
 }

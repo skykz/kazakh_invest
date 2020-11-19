@@ -18,12 +18,15 @@ class MainCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
       child: Ink(
         width: double.infinity,
-        height: isBigCard ? 85 : null,
+        height: isBigCard ? height * 0.1 : null,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
@@ -40,13 +43,15 @@ class MainCardWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 30),
+              padding: isBigCard
+                  ? const EdgeInsets.only(left: 30)
+                  : const EdgeInsets.only(left: 5),
               child: CachedNetworkImage(
                 fadeInDuration: Duration(milliseconds: 350),
                 imageUrl: imageUrl,
                 imageBuilder: (context, imageProvider) => Container(
-                  height: isBigCard ? 60 : 40,
-                  width: isBigCard ? 85 : 40,
+                  height: isBigCard ? 60 : height * 0.2,
+                  width: isBigCard ? 85 : width * 0.1,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     image: DecorationImage(
@@ -57,8 +62,8 @@ class MainCardWidget extends StatelessWidget {
                   ),
                 ),
                 errorWidget: (context, url, error) => SizedBox(
-                  height: 30,
-                  width: 30,
+                  height: isBigCard ? 60 : height * 0.2,
+                  width: isBigCard ? 85 : width * 0.1,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: const Icon(
@@ -76,8 +81,8 @@ class MainCardWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              width: 10,
+            SizedBox(
+              width: width * 0.02,
             ),
             Flexible(
               flex: 2,

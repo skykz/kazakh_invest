@@ -7,11 +7,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'expansion_widget.dart';
 
 class AppDrawer extends StatelessWidget {
-  final Function onTap;
-  const AppDrawer({Key key, this.onTap}) : super(key: key);
+  const AppDrawer({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return Drawer(
       child: Stack(
         children: [
@@ -36,7 +37,7 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 50, bottom: 10),
+            padding: EdgeInsets.only(top: height * 0.06, bottom: height * 0.02),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -57,6 +58,19 @@ class AppDrawer extends StatelessWidget {
                               return AppExpansionTile(
                                 key: expansionTile,
                                 itemIndex: index,
+                                isEmpty: provider.getMainMenuData[index]
+                                            ['submenu'] ==
+                                        null
+                                    ? true
+                                    : false,
+                                onTapped: () {
+                                  if (provider.getMainMenuData[index]['code'] ==
+                                      'cmd://regions') {
+                                    provider.setCurrentScreenIndex(3);
+                                    provider.setMenuItemIndex(index);
+                                    Navigator.of(context).pop();
+                                  }
+                                },
                                 selectedItemIndex: provider.getMenuItemIndex,
                                 title: Align(
                                   alignment: Alignment.centerLeft,
@@ -74,11 +88,15 @@ class AppDrawer extends StatelessWidget {
                                 backgroundColor: Theme.of(context)
                                     .accentColor
                                     .withOpacity(0.025),
-                                children: ListView.builder(
+                                child: ListView.builder(
                                     key: Key('$index'),
-                                    itemCount: provider
-                                        .getMainMenuData[index]['submenu']
-                                        .length,
+                                    itemCount: provider.getMainMenuData[index]
+                                                ['submenu'] !=
+                                            null
+                                        ? provider
+                                            .getMainMenuData[index]['submenu']
+                                            .length
+                                        : 0,
                                     shrinkWrap: true,
                                     addAutomaticKeepAlives: true,
                                     padding: const EdgeInsets.symmetric(
@@ -106,7 +124,7 @@ class AppDrawer extends StatelessWidget {
                                                 onTap: () {
                                                   provider
                                                       .setMenuItemIndex(index);
-                                                  _webSwitch(
+                                                  _switchScreen(
                                                       provider, index, i);
                                                   Navigator.of(context).pop();
                                                 },
@@ -143,7 +161,7 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 200),
+                    padding: EdgeInsets.only(top: height * 0.22),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Column(
@@ -187,11 +205,13 @@ class AppDrawer extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15),
-                                      child: Text(
-                                        setPhoneString(context),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
+                                      child: FittedBox(
+                                        child: Text(
+                                          setPhoneString(context),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -213,11 +233,11 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  _webSwitch(HomeProvider provider, int index, int i) {
+  _switchScreen(HomeProvider provider, int index, int i) {
     if (provider.getMainMenuData[index]['submenu'][i]['link'] == 'cmd://news') {
       provider.setCurrentScreenIndex(1);
-    } else if (provider.getMainMenuData[index]['submenu'][i]['title'] ==
-        'Истории успеха') {
+    } else if (provider.getMainMenuData[index]['submenu'][i]['link'] ==
+        'cmd://success-stories') {
       provider.setCurrentScreenIndex(2);
     } else {
       provider.setControllerNull();

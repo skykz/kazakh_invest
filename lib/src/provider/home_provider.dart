@@ -21,6 +21,9 @@ class HomeProvider extends BaseProvider {
   bool _isLoading = false;
   bool get getLoading => _isLoading;
 
+  bool _isSecret = false;
+  bool get getIsSecretApiState => _isSecret;
+
   int _currentPageIndex = 0;
   int get getCurrentPageIndex => _currentPageIndex;
 
@@ -45,6 +48,25 @@ class HomeProvider extends BaseProvider {
   List<dynamic> _successHistory = List();
   List<dynamic> get getMainSuccessHistoryList => _successHistory;
 
+  List<dynamic> _listCategories = List();
+  List<dynamic> get getListCategories => _listCategories;
+
+  int _selectedHistorySuccessId;
+  int get getSuccesHistoryId => _selectedHistorySuccessId;
+
+  int _selectedNewsId;
+  int get getSelectedNewsId => _selectedNewsId;
+
+  setNewsId(int id) {
+    this._selectedNewsId = id;
+    notifyListeners();
+  }
+
+  setSuccesHistoryId(int id) {
+    this._selectedHistorySuccessId = id;
+    notifyListeners();
+  }
+
   setLoadingState(bool val) {
     this._isLoading = val;
     notifyListeners();
@@ -58,6 +80,13 @@ class HomeProvider extends BaseProvider {
   setMenuItemIndex(int val) {
     this._menuItemIndex = val;
     notifyListeners();
+  }
+
+  getSecretApi(BuildContext context) {
+    _openApi.getSecret(context).then((val) {
+      this._isSecret = val['hide'];
+      notifyListeners();
+    });
   }
 
   Future getSlidersContent(BuildContext context) async {
@@ -93,5 +122,21 @@ class HomeProvider extends BaseProvider {
     this._successHistory =
         await _openApi.getSuccessHistory(context, getLangType);
     notifyListeners();
+  }
+
+  Future getNewsCategory(BuildContext context) async {
+    return await _openApi.getCategeoryNews(context, getLangType);
+  }
+
+  Future getNewsCategoryById(int categoryId, BuildContext context) async {
+    return await _openApi.getCategoryById(context, getLangType, categoryId);
+  }
+
+  Future getSuccessHistoryById(int id, BuildContext context) async {
+    return await _openApi.getSuccessHistoryById(context, getLangType, id);
+  }
+
+  Future getNewsDetailById(int id, BuildContext context) async {
+    return await _openApi.getNewsDetailById(context, getLangType, id);
   }
 }

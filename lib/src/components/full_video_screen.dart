@@ -38,6 +38,8 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -46,12 +48,13 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
             Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                  icon: const Icon(
-                    Icons.close_rounded,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => Navigator.pop(context)),
+                icon: const Icon(
+                  Icons.close_rounded,
+                  size: 35,
+                  color: Colors.white,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
             ),
             Expanded(
               child: Container(
@@ -61,8 +64,8 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 50,
+            SizedBox(
+              height: height * 0.1,
             )
           ],
         ),

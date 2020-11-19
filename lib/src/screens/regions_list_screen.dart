@@ -25,47 +25,56 @@ class _RegionListScreenState extends State<RegionListScreen> {
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
 
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 32),
-            child: Center(
-              child: Text(
-                setTitle(homeProvider),
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: () {
+        homeProvider.setCurrentScreenIndex(0);
+      },
+      child: Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 32),
+              child: Center(
+                child: Text(
+                  setTitle(homeProvider),
+                  style: const TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          homeProvider.getMainRegionList == null
-              ? const LoadingWidget()
-              : Expanded(
-                  child: GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: homeProvider.getMainRegionList.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: MediaQuery.of(context).size.width /
-                            (MediaQuery.of(context).size.height / 3.5),
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: MainCardWidget(
-                            imageUrl: homeProvider.getMainRegionList[index]
-                                ['img'],
-                            title: homeProvider.getMainRegionList[index]
-                                ['name'],
-                          ),
-                        );
-                      }),
-                )
-        ],
+            homeProvider.getMainRegionList == null
+                ? Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: const LoadingWidget(),
+                  )
+                : Expanded(
+                    child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: homeProvider.getMainRegionList.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 3.5),
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: MainCardWidget(
+                              imageUrl: homeProvider.getMainRegionList[index]
+                                  ['img'],
+                              title: homeProvider.getMainRegionList[index]
+                                  ['name'],
+                              onTap: () {},
+                            ),
+                          );
+                        }),
+                  ),
+          ],
+        ),
       ),
     );
   }

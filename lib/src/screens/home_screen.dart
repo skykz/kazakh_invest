@@ -8,7 +8,7 @@ import 'package:kazakh_invest/src/components/app_drawer_widget.dart';
 import 'package:kazakh_invest/src/screens/sliders_screens.dart';
 import 'package:kazakh_invest/src/core/data/models/dialog_type.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
-import 'package:kazakh_invest/src/screens/news_detail_screen.dart';
+import 'package:kazakh_invest/src/screens/history_success_detail_screen.dart';
 import 'package:kazakh_invest/src/screens/regions_list_screen.dart';
 import 'package:kazakh_invest/src/screens/web_view_screen.dart';
 import 'package:kazakh_invest/src/utils/common.dart';
@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:kazakh_invest/src/components/loading_widget.dart';
 
 import 'history_success_screen.dart';
+import 'news_detail_screen.dart';
 import 'news_screen.dart';
 
 class IntroMainScreen extends StatefulWidget {
@@ -50,6 +51,7 @@ class _IntroMainScreenState extends State<IntroMainScreen>
       homeProvider.getSlidersContent(context);
       homeProvider.getMainVideoData(context);
       homeProvider.getMainMenu(context);
+      homeProvider.getSecretApi(context);
     });
 
     super.initState();
@@ -61,6 +63,8 @@ class _IntroMainScreenState extends State<IntroMainScreen>
     HistorySuccessScreen(),
     RegionListScreen(),
     WebViewScreen(),
+    HistorySuccessDetailScreen(),
+    NewsDetailScreen(),
     LoadingWidget(),
   ];
 
@@ -74,7 +78,7 @@ class _IntroMainScreenState extends State<IntroMainScreen>
           ? Container(
               color: Colors.white,
               child: const Center(
-                child: LoadingWidget(),
+                child: const LoadingWidget(),
               ),
             )
           : Scaffold(
@@ -91,59 +95,61 @@ class _IntroMainScreenState extends State<IntroMainScreen>
                   },
                 ),
                 titleSpacing: 0.0,
-                title: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      fadeInDuration: Duration(milliseconds: 350),
-                      imageUrl: homeProvider.getSliderContent['logo'],
-                      imageBuilder: (context, imageProvider) => Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
+                title: homeProvider.getIsSecretApiState
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CachedNetworkImage(
                             fit: BoxFit.cover,
+                            fadeInDuration: Duration(milliseconds: 350),
+                            imageUrl: homeProvider.getSliderContent['logo'],
+                            imageBuilder: (context, imageProvider) => Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: const Icon(
+                                  Icons.error_outline_rounded,
+                                  size: 25,
+                                ),
+                              ),
+                            ),
+                            placeholder: (context, val) => Center(
+                              child: const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: LoadingWidget(),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: const Icon(
-                            Icons.error_outline_rounded,
-                            size: 25,
+                          const SizedBox(
+                            width: 10,
                           ),
-                        ),
-                      ),
-                      placeholder: (context, val) => Center(
-                        child: const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: LoadingWidget(),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Image.asset(
-                      'lib/assets/png/ornament.png',
-                      height: 30,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    SvgPicture.asset(
-                      'lib/assets/svg/kazinvest__logo.svg',
-                      width: 110,
-                    )
-                  ],
-                ),
+                          Image.asset(
+                            'lib/assets/png/ornament.png',
+                            height: 30,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          SvgPicture.asset(
+                            'lib/assets/svg/kazinvest__logo.svg',
+                            width: 110,
+                          )
+                        ],
+                      )
+                    : const SizedBox(),
                 actions: [
                   SizedBox(
                     width: width * 0.22,
@@ -156,6 +162,7 @@ class _IntroMainScreenState extends State<IntroMainScreen>
                             "Выберите язык",
                             DialogType.LangType,
                             true,
+                            null,
                             null,
                             () {}),
                         shape: RoundedRectangleBorder(
@@ -185,36 +192,6 @@ class _IntroMainScreenState extends State<IntroMainScreen>
                 );
               }),
             ),
-    );
-  }
-}
-
-class Screen2Builder extends StatelessWidget {
-  const Screen2Builder({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      initialRoute: 'news',
-      onGenerateRoute: (RouteSettings settings) {
-        switch (settings.name) {
-          case 'news':
-            return MaterialPageRoute(
-                builder: (context) => NewsDetailScreen(
-                      isHistory: true,
-                    ),
-                settings: settings);
-            break;
-
-          case 'news-detail':
-            return MaterialPageRoute(
-                builder: (context) => WebViewScreen(), settings: settings);
-            break;
-
-          default:
-            throw Exception("Invalid route");
-        }
-      },
     );
   }
 }

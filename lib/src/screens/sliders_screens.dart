@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -111,97 +112,109 @@ class _SlidersWidgetState extends State<SlidersWidget> {
     final height = MediaQuery.of(context).size.height;
     final homeProvider = Provider.of<HomeProvider>(context);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
-          child: Text(
-            '${homeProvider.getSliderContent['title']}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: height * 0.2,
-          child: Stack(
+    return homeProvider.getSliderContent != null
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Center(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    '${homeProvider.getMainVideo['title']}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
+                child: Text(
+                  '${homeProvider.getSliderContent['title']}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              Center(
-                child: BouncingWidget(
-                  onPressed: () => _showVideoScreen(homeProvider),
+              SizedBox(
+                width: double.infinity,
+                height: height * 0.2,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          homeProvider.getMainVideo != null
+                              ? '${homeProvider.getMainVideo['title']}'
+                              : '....',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: BouncingWidget(
+                        onPressed: () => _showVideoScreen(homeProvider),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    BlurContainerWidget(
+                      onTap: () {
+                        homeProvider.setControllerNull();
+
+                        homeProvider.setCurrentScreenIndex(4);
+                        homeProvider.setWebLink(homeProvider
+                            .getSliderContent['main_slider'][0]['link']);
+                      },
+                      svgPath: 'lib/assets/svg/layers.svg',
+                      title:
+                          '${homeProvider.getSliderContent['main_slider'][0]['title']}',
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BlurContainerWidget(
+                      onTap: () {
+                        homeProvider.setControllerNull();
+
+                        homeProvider.setCurrentScreenIndex(4);
+                        homeProvider.setWebLink(homeProvider
+                            .getSliderContent['main_slider'][1]['link']);
+                      },
+                      svgPath: 'lib/assets/svg/line_chart.svg',
+                      title:
+                          '${homeProvider.getSliderContent['main_slider'][1]['title']}',
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BlurContainerWidget(
+                      onTap: () {
+                        homeProvider.setControllerNull();
+
+                        homeProvider.setCurrentScreenIndex(4);
+                        homeProvider.setWebLink(homeProvider
+                            .getSliderContent['main_slider'][2]['link']);
+                      },
+                      svgPath: 'lib/assets/svg/download.svg',
+                      title:
+                          '${homeProvider.getSliderContent['main_slider'][2]['title']}',
+                    ),
+                  ],
+                ),
+              )
             ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              BlurContainerWidget(
-                onTap: () {
-                  homeProvider.setControllerNull();
-
-                  homeProvider.setCurrentScreenIndex(4);
-                  homeProvider.setWebLink(
-                      homeProvider.getSliderContent['main_slider'][0]['link']);
-                },
-                svgPath: 'lib/assets/svg/layers.svg',
-                title:
-                    '${homeProvider.getSliderContent['main_slider'][0]['title']}',
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              BlurContainerWidget(
-                onTap: () {
-                  homeProvider.setControllerNull();
-
-                  homeProvider.setCurrentScreenIndex(4);
-                  homeProvider.setWebLink(
-                      homeProvider.getSliderContent['main_slider'][1]['link']);
-                },
-                svgPath: 'lib/assets/svg/line_chart.svg',
-                title:
-                    '${homeProvider.getSliderContent['main_slider'][1]['title']}',
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              BlurContainerWidget(
-                onTap: () {
-                  homeProvider.setControllerNull();
-
-                  homeProvider.setCurrentScreenIndex(4);
-                  homeProvider.setWebLink(
-                      homeProvider.getSliderContent['main_slider'][2]['link']);
-                },
-                svgPath: 'lib/assets/svg/download.svg',
-                title:
-                    '${homeProvider.getSliderContent['main_slider'][2]['title']}',
-              ),
-            ],
-          ),
-        )
-      ],
-    );
+          )
+        : Center(
+            child: Platform.isAndroid
+                ? const CircularProgressIndicator(
+                    strokeWidth: 2,
+                  )
+                : const CupertinoActivityIndicator(
+                    radius: 15,
+                  ),
+          );
   }
 
   _showVideoScreen(HomeProvider homeProvider) {
@@ -395,15 +408,16 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                                 ),
                               ),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const SizedBox(
-                              height: 60,
-                              width: 80,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Icon(
-                                  Icons.error_outline_rounded,
-                                  size: 25,
+                            errorWidget: (context, url, error) => Center(
+                              child: const SizedBox(
+                                height: 60,
+                                width: 80,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Icon(
+                                    Icons.error_outline_rounded,
+                                    size: 25,
+                                  ),
                                 ),
                               ),
                             ),
