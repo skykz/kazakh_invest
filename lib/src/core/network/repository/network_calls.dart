@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:kazakh_invest/src/core/network/core/api_network.dart';
@@ -18,7 +19,10 @@ class KazakhInvestOpenApi {
 
   // News
   static const NEWS_SUCCESS_STORY = '/news/success-story';
+  static const NEWS_SUCCESS_STORY_REGION = '/news/success-story/region';
   static const NEWS_SUCCESS_STORY_BY_ID = '/news/success-story/getById';
+  static const NEWS_SUCCESS_STORY_REGIO_BY_ID =
+      '/news/success-story/region/getById';
   static const NEWS_GET_REGION_SECTION = '/news/getRegionSection';
   static const NEWS_GET = '/news/get';
   static const NEWS_GET_BY_ID = '/news/getById';
@@ -52,21 +56,37 @@ class KazakhInvestOpenApi {
     return response;
   }
 
-  Future<dynamic> getSliders(BuildContext context, String langtype) async {
+  Future<dynamic> getSliders(
+      BuildContext context, String langtype, String codeRegion) async {
     dynamic response = await _networkCall.doRequestMain(
         path: MAIN_SLIDERS,
         method: 'GET',
         context: context,
-        requestParams: {'lang': langtype.toString()});
+        requestParams: codeRegion == null
+            ? {
+                'lang': langtype.toString(),
+              }
+            : {
+                'lang': langtype.toString(),
+                'region_code': codeRegion,
+              });
     return response;
   }
 
-  Future<dynamic> getMainMenu(BuildContext context, String langtype) async {
+  Future<dynamic> getMainMenu(
+      BuildContext context, String langtype, String codeRegion) async {
     dynamic response = await _networkCall.doRequestMain(
-        path: MENU_MAIN,
+        path: codeRegion == null ? MENU_MAIN : MENU_REGION_MENU,
         method: 'GET',
         context: context,
-        requestParams: {'lang': langtype.toString()});
+        requestParams: codeRegion == null
+            ? {
+                'lang': langtype.toString(),
+              }
+            : {
+                'lang': langtype.toString(),
+                'region_code': codeRegion,
+              });
     return response;
   }
 
@@ -100,12 +120,19 @@ class KazakhInvestOpenApi {
   }
 
   Future<dynamic> getSuccessHistory(
-      BuildContext context, String langtype) async {
+      BuildContext context, String langtype, String codeRegion) async {
+    log('$langtype');
     dynamic response = await _networkCall.doRequestMain(
-        path: NEWS_SUCCESS_STORY,
-        method: 'GET',
-        context: context,
-        requestParams: {'lang': langtype.toString()});
+      path: codeRegion == null ? NEWS_SUCCESS_STORY : NEWS_SUCCESS_STORY_REGION,
+      method: 'GET',
+      context: context,
+      requestParams: codeRegion == null
+          ? {'lang': langtype.toString()}
+          : {
+              'lang': langtype.toString(),
+              'region_code': codeRegion,
+            },
+    );
 
     return response;
   }
@@ -138,15 +165,22 @@ class KazakhInvestOpenApi {
   }
 
   Future<dynamic> getSuccessHistoryById(
-      BuildContext context, String langtype, int id) async {
+      BuildContext context, String langtype, int id, String codeRegion) async {
     dynamic response = await _networkCall.doRequestMain(
-        path: NEWS_SUCCESS_STORY_BY_ID,
+        path: codeRegion == null
+            ? NEWS_SUCCESS_STORY_BY_ID
+            : NEWS_SUCCESS_STORY_REGIO_BY_ID,
         method: 'GET',
         context: context,
-        requestParams: {
-          'lang': langtype.toString(),
-          'id': id,
-        });
+        requestParams: codeRegion == null
+            ? {
+                'lang': langtype.toString(),
+                'id': id,
+              }
+            : {
+                'lang': langtype.toString(),
+                'id': id,
+              });
 
     return response;
   }

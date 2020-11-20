@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
+import 'package:kazakh_invest/src/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -43,6 +44,54 @@ class AppDrawer extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Consumer<HomeProvider>(builder: (context, provider, child) {
+                    if (provider.getCodeRegion == null) return const SizedBox();
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              provider.setRegionCode(null);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageRouteBuilder(pageBuilder:
+                                      (BuildContext context,
+                                          Animation animation,
+                                          Animation secondaryAnimation) {
+                                    return IntroMainScreen();
+                                  }, transitionsBuilder: (BuildContext context,
+                                      Animation<double> animation,
+                                      Animation<double> secondaryAnimation,
+                                      Widget child) {
+                                    return SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1.0, 0.0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: child,
+                                    );
+                                  }),
+                                  (Route route) => false);
+                              provider.setCurrentScreenIndex(0);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 45),
+                                child: Text(
+                                  'Все регионы',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                   Consumer<HomeProvider>(
                     builder: (context, provider, child) {
                       return Column(
@@ -122,11 +171,13 @@ class AppDrawer extends StatelessWidget {
                                               ),
                                               child: InkWell(
                                                 onTap: () {
+                                                  Navigator.of(context).pop();
+
                                                   provider
                                                       .setMenuItemIndex(index);
+
                                                   _switchScreen(
                                                       provider, index, i);
-                                                  Navigator.of(context).pop();
                                                 },
                                                 child: Padding(
                                                   padding:
@@ -198,7 +249,8 @@ class AppDrawer extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
                                     ),
-                                    color: Color.fromRGBO(96, 182, 227, 1),
+                                    color:
+                                        const Color.fromRGBO(96, 182, 227, 1),
                                     onPressed: () {
                                       launch('tel://+77172620620');
                                     },
@@ -241,8 +293,6 @@ class AppDrawer extends StatelessWidget {
       provider.setCurrentScreenIndex(2);
     } else {
       provider.setControllerNull();
-
-      // provider.setCurrentScreenIndex(5);
       provider
           .setWebLink(provider.getMainMenuData[index]['submenu'][i]['link']);
       provider.setCurrentScreenIndex(4);

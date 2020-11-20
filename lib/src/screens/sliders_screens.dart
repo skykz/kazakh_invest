@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:kazakh_invest/src/components/scale_transition_route.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
+import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../components/blur_container_widget.dart';
 import '../components/bounce_button.dart';
@@ -39,69 +39,75 @@ class _SlidersWidgetState extends State<SlidersWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final homeProvider = Provider.of<HomeProvider>(context);
+    // final homeProvider = Provider.of<HomeProvider>(context);
 
     return Stack(
       fit: StackFit.expand,
       children: [
-        CachedNetworkImage(
-          fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 350),
-          imageUrl: homeProvider.getSliderContent['background'],
-          imageBuilder: (context, imageProvider) => Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
+        Consumer<HomeProvider>(builder: (context, provider, child) {
+          return CachedNetworkImage(
+            fit: BoxFit.cover,
+            fadeInDuration: const Duration(milliseconds: 150),
+            imageUrl: provider.getSliderContent['background'],
+            imageBuilder: (context, imageProvider) => Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          errorWidget: (context, url, error) => const SizedBox(
-            height: 30,
-            width: 30,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: const Icon(
-                Icons.error_outline_rounded,
-                size: 25,
+            errorWidget: (context, url, error) => const SizedBox(
+              height: 30,
+              width: 30,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: const Icon(
+                  Icons.error_outline_rounded,
+                  size: 25,
+                ),
               ),
             ),
-          ),
-          placeholder: (context, val) => const SizedBox(
-            height: 25,
-            width: 25,
-            child: LoadingWidget(),
-          ),
-        ),
+            placeholder: (context, val) => const SizedBox(
+              height: 25,
+              width: 25,
+              child: LoadingWidget(),
+            ),
+          );
+        }),
         Padding(
           padding: const EdgeInsets.only(bottom: 15),
-          child: PageView(
-            controller: _pageController,
-            children: [
-              _builFirstScreen(),
-              _builSecondScreen(),
-              _builThirdScreen(),
-            ],
-          ),
+          child: Consumer<HomeProvider>(builder: (context, provider, child) {
+            return PageView(
+              controller: _pageController,
+              onPageChanged: (val) {
+                provider.setPageIndicator(val);
+              },
+              children: [
+                _builFirstScreen(),
+                _builSecondScreen(),
+                _builThirdScreen(),
+              ],
+            );
+          }),
         ),
         Padding(
           padding: const EdgeInsets.all(10),
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: SmoothPageIndicator(
-              controller: _pageController, // PageController
-              count: 3,
-              effect: WormEffect(
-                dotHeight: 10,
-                spacing: 20,
+            child: Consumer<HomeProvider>(builder: (context, provider, child) {
+              return CirclePageIndicator(
+                itemCount: 3,
+                dotSpacing: 15,
+                size: 11,
+                selectedSize: 11,
+                selectedDotColor: Colors.white,
                 dotColor: const Color.fromRGBO(96, 182, 227, 0.45),
-                activeDotColor: Colors.white,
-                dotWidth: 10,
-              ), // your preferred effect
-              onDotClicked: (index) {},
-            ),
+                currentPageNotifier: provider.getPageNotifier,
+              );
+            }),
           ),
         ),
       ],
@@ -121,9 +127,14 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                 child: Text(
                   '${homeProvider.getSliderContent['title']}',
                   style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                  ),
+                      color: Colors.white,
+                      fontSize: 25,
+                      shadows: [
+                        BoxShadow(
+                            blurRadius: 10,
+                            spreadRadius: 1,
+                            color: Colors.black45)
+                      ]),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -140,9 +151,14 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                               ? '${homeProvider.getMainVideo['title']}'
                               : '....',
                           style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
+                              color: Colors.white,
+                              fontSize: 16,
+                              shadows: [
+                                BoxShadow(
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                    color: Colors.black87)
+                              ]),
                         ),
                       ),
                     ),
@@ -394,7 +410,7 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                         children: [
                           CachedNetworkImage(
                             fit: BoxFit.cover,
-                            fadeInDuration: const Duration(milliseconds: 350),
+                            fadeInDuration: const Duration(milliseconds: 150),
                             imageUrl:
                                 "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
                             imageBuilder: (context, imageProvider) => Container(
@@ -510,63 +526,71 @@ class _SlidersWidgetState extends State<SlidersWidget> {
             child: Text(
               '${homeProvider.getSliderContent['secondry_title']}',
               style: const TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-              ),
+                  color: Colors.white,
+                  fontSize: 25,
+                  shadows: [
+                    BoxShadow(
+                        blurRadius: 10, spreadRadius: 1, color: Colors.black45)
+                  ]),
               textAlign: TextAlign.center,
             ),
           ),
-          Expanded(
-            child: StaggeredGridView.countBuilder(
-                shrinkWrap: true,
-                crossAxisCount: 4,
-                itemCount: homeProvider.getSliderContent['items'].length,
-                mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
-                staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                        child: Container(
-                          width: width,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.2),
+          homeProvider.getSliderContent['items'] != null
+              ? Expanded(
+                  child: StaggeredGridView.countBuilder(
+                      shrinkWrap: true,
+                      crossAxisCount: 4,
+                      itemCount: homeProvider.getSliderContent['items'].length,
+                      mainAxisSpacing: 4.0,
+                      crossAxisSpacing: 4.0,
+                      staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                homeProvider.getSliderContent['items'][index]
-                                    ['VALUE'],
-                                style: const TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                            child: BackdropFilter(
+                              filter:
+                                  ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                              child: Container(
+                                width: width,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      homeProvider.getSliderContent['items']
+                                          [index]['VALUE'],
+                                      style: const TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      homeProvider.getSliderContent['items']
+                                          [index]['DESC'],
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      maxLines: 8,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  ],
                                 ),
                               ),
-                              Text(
-                                homeProvider.getSliderContent['items'][index]
-                                    ['DESC'],
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                                maxLines: 8,
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-          ),
+                        );
+                      }),
+                )
+              : const Center(
+                  child: Text('Нету данных.'),
+                ),
         ],
       ),
     );

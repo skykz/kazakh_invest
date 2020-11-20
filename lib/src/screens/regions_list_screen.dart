@@ -4,6 +4,8 @@ import 'package:kazakh_invest/src/components/main_white_card.dart';
 import 'package:kazakh_invest/src/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'home_screen.dart';
+
 class RegionListScreen extends StatefulWidget {
   const RegionListScreen({Key key}) : super(key: key);
 
@@ -68,7 +70,10 @@ class _RegionListScreenState extends State<RegionListScreen> {
                                   ['img'],
                               title: homeProvider.getMainRegionList[index]
                                   ['name'],
-                              onTap: () {},
+                              onTap: () => _setRegion(
+                                homeProvider,
+                                homeProvider.getMainRegionList[index]['code'],
+                              ),
                             ),
                           );
                         }),
@@ -93,5 +98,35 @@ class _RegionListScreenState extends State<RegionListScreen> {
       default:
         return null;
     }
+  }
+
+  _setRegion(HomeProvider homeProvider, String code) {
+    homeProvider.setRegionCode(code);
+    homeProvider.setCurrentScreenIndex(0);
+    Future.delayed(
+      Duration(milliseconds: 200),
+      _goHome(),
+    );
+  }
+
+  _goHome() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        PageRouteBuilder(pageBuilder: (BuildContext context,
+            Animation animation, Animation secondaryAnimation) {
+          return IntroMainScreen();
+        }, transitionsBuilder: (BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        }),
+        (Route route) => false);
   }
 }

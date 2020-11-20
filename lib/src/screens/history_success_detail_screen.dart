@@ -56,40 +56,51 @@ class _NewsDetailScreenState extends State<HistorySuccessDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Center(
-                      child: CachedNetworkImage(
-                        fadeInDuration: Duration(milliseconds: 350),
-                        imageUrl: snapshot.data['logo'],
-                        imageBuilder: (context, imageProvider) => Center(
-                          child: Container(
-                            height: height * 0.18,
-                            width: width * 0.5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              image: DecorationImage(
-                                alignment: Alignment.centerLeft,
-                                image: imageProvider,
-                                fit: BoxFit.contain,
+                      child: snapshot.data['logo'] != null
+                          ? CachedNetworkImage(
+                              fadeInDuration: Duration(milliseconds: 150),
+                              imageUrl: snapshot.data['logo'],
+                              imageBuilder: (context, imageProvider) => Center(
+                                child: Container(
+                                  height: height * 0.18,
+                                  width: width * 0.5,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    image: DecorationImage(
+                                      alignment: Alignment.centerLeft,
+                                      image: imageProvider,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: const Icon(
+                                    Icons.error_outline_rounded,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                              placeholder: (context, val) => const SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: const LoadingWidget(),
+                              ),
+                            )
+                          : SizedBox(
+                              height: height * 0.18,
+                              width: width * 0.5,
+                              child: const Icon(
+                                Icons.no_photography,
+                                size: 40,
+                                color: Colors.grey,
                               ),
                             ),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => const SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: const Icon(
-                              Icons.error_outline_rounded,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                        placeholder: (context, val) => const SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: const LoadingWidget(),
-                        ),
-                      ),
                     ),
                     Text(
                       snapshot.data['name'],

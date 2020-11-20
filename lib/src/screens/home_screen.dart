@@ -28,34 +28,9 @@ class IntroMainScreen extends StatefulWidget {
 
 class _IntroMainScreenState extends State<IntroMainScreen>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final _scaffoldKey = new GlobalKey<ScaffoldState>();
+  Animation<double> _animDouble;
   AnimationController _controller;
-  Animation<Offset> _offsetFloat;
-
-  @override
-  void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
-
-    _offsetFloat = Tween<Offset>(begin: Offset(2.0, 0.0), end: Offset.zero)
-        .animate(_controller);
-
-    _offsetFloat.addListener(() {
-      setState(() {});
-    });
-    _controller.forward();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final homeProvider = Provider.of<HomeProvider>(context, listen: false);
-      homeProvider.getSlidersContent(context);
-      homeProvider.getMainVideoData(context);
-      homeProvider.getMainMenu(context);
-      homeProvider.getSecretApi(context);
-    });
-
-    super.initState();
-  }
 
   List<Widget> _bodyComponents = [
     SlidersWidget(),
@@ -67,6 +42,24 @@ class _IntroMainScreenState extends State<IntroMainScreen>
     NewsDetailScreen(),
     LoadingWidget(),
   ];
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
+    _animDouble = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+    _controller.forward();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+      homeProvider.getSlidersContent(context);
+      homeProvider.getMainVideoData(context);
+      homeProvider.getMainMenu(context);
+      homeProvider.getSecretApi(context);
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +107,8 @@ class _IntroMainScreenState extends State<IntroMainScreen>
                                 ),
                               ),
                             ),
-                            errorWidget: (context, url, error) => SizedBox(
+                            errorWidget: (context, url, error) =>
+                                const SizedBox(
                               height: 20,
                               width: 20,
                               child: Padding(
@@ -125,7 +119,7 @@ class _IntroMainScreenState extends State<IntroMainScreen>
                                 ),
                               ),
                             ),
-                            placeholder: (context, val) => Center(
+                            placeholder: (context, val) => const Center(
                               child: const SizedBox(
                                 width: 20,
                                 height: 20,
@@ -173,10 +167,12 @@ class _IntroMainScreenState extends State<IntroMainScreen>
                           width: 1,
                         ),
                         color: Colors.blue,
-                        child: Text(
-                          setLangType(homeProvider.getLangType),
-                          style: TextStyle(
-                            fontSize: 11,
+                        child: FittedBox(
+                          child: Text(
+                            setLangType(homeProvider.getLangType),
+                            style: const TextStyle(
+                              fontSize: 11,
+                            ),
                           ),
                         ),
                       ),
@@ -186,9 +182,9 @@ class _IntroMainScreenState extends State<IntroMainScreen>
               ),
               drawer: AppDrawer(),
               body: Consumer<HomeProvider>(builder: (context, provider, child) {
-                return SlideTransition(
+                return FadeTransition(
                   child: _bodyComponents[homeProvider.getCurrentPageIndex],
-                  position: _offsetFloat,
+                  opacity: _animDouble,
                 );
               }),
             ),

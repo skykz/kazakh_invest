@@ -46,33 +46,48 @@ class _RegionListScreenState extends State<HistorySuccessScreen> {
                 ),
               ),
             ),
-            homeProvider.getMainSuccessHistoryList.length == 0
+            homeProvider.getMainSuccessHistoryList == null
                 ? const LoadingWidget()
-                : Expanded(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount:
-                            homeProvider.getMainSuccessHistoryList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: MainCardWidget(
-                              imageUrl: homeProvider
-                                  .getMainSuccessHistoryList[index]['logo'],
-                              title: homeProvider
-                                  .getMainSuccessHistoryList[index]['name'],
-                              isBigCard: true,
-                              onTap: () {
-                                homeProvider.setSuccesHistoryId(int.tryParse(
-                                    homeProvider
-                                            .getMainSuccessHistoryList[index]
-                                        ['id']));
-                                homeProvider.setCurrentScreenIndex(5);
-                              },
+                : homeProvider.getMainSuccessHistoryList.length == 0
+                    ? Column(
+                        children: [
+                          Center(
+                            child: const Text(
+                              'Нету данных!',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
-                          );
-                        }),
-                  )
+                          ),
+                        ],
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount:
+                                homeProvider.getMainSuccessHistoryList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: MainCardWidget(
+                                  imageUrl: homeProvider
+                                      .getMainSuccessHistoryList[index]['logo'],
+                                  title: homeProvider
+                                      .getMainSuccessHistoryList[index]['name'],
+                                  isBigCard: true,
+                                  onTap: () {
+                                    homeProvider.setSuccesHistoryId(
+                                      int.tryParse(
+                                        homeProvider.getMainSuccessHistoryList[
+                                            index]['id'],
+                                      ),
+                                    );
+                                    homeProvider.setCurrentScreenIndex(5);
+                                  },
+                                ),
+                              );
+                            }),
+                      )
           ],
         ),
       ),

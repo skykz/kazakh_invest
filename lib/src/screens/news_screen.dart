@@ -21,6 +21,7 @@ class _NewScreenState extends State<NewScreen> with TickerProviderStateMixin {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         homeProvider.setCurrentScreenIndex(0);
       },
@@ -54,7 +55,7 @@ class _NewScreenState extends State<NewScreen> with TickerProviderStateMixin {
                     child: Center(
                       child: Text(
                         setTitle(homeProvider),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -66,7 +67,7 @@ class _NewScreenState extends State<NewScreen> with TickerProviderStateMixin {
                       Expanded(
                         child: Container(
                           color: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: TabBar(
                             isScrollable: true,
                             unselectedLabelColor: Colors.grey,
@@ -90,12 +91,13 @@ class _NewScreenState extends State<NewScreen> with TickerProviderStateMixin {
                   ),
                   Expanded(
                     child: TabBarView(
-                        controller: _tabController,
-                        children: _listCategories.map((data) {
-                          return CustomListWidget(
-                            categoryId: data['id'],
-                          );
-                        }).toList()),
+                      controller: _tabController,
+                      children: _listCategories.map((data) {
+                        return CustomListWidget(
+                          categoryId: data['id'],
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ],
               );

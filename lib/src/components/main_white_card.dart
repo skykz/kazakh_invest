@@ -46,40 +46,50 @@ class MainCardWidget extends StatelessWidget {
               padding: isBigCard
                   ? const EdgeInsets.only(left: 30)
                   : const EdgeInsets.only(left: 5),
-              child: CachedNetworkImage(
-                fadeInDuration: Duration(milliseconds: 350),
-                imageUrl: imageUrl,
-                imageBuilder: (context, imageProvider) => Container(
-                  height: isBigCard ? 60 : height * 0.2,
-                  width: isBigCard ? 85 : width * 0.1,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    image: DecorationImage(
-                      alignment: Alignment.center,
-                      image: imageProvider,
-                      fit: BoxFit.contain,
+              child: imageUrl != null
+                  ? CachedNetworkImage(
+                      fadeInDuration: const Duration(milliseconds: 150),
+                      imageUrl: imageUrl,
+                      useOldImageOnUrlChange: true,
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: isBigCard ? 45 : height * 0.2,
+                        width: isBigCard ? 85 : width * 0.1,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          image: DecorationImage(
+                            alignment: Alignment.center,
+                            image: imageProvider,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => SizedBox(
+                        height: isBigCard ? 60 : height * 0.2,
+                        width: isBigCard ? 85 : width * 0.1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: const Icon(
+                            Icons.error_outline_rounded,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, val) => SizedBox(
+                        height: isBigCard ? 60 : 30,
+                        width: isBigCard ? 85 : 30,
+                        child: Center(
+                          child: const LoadingWidget(),
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      height: isBigCard ? 45 : height * 0.2,
+                      width: isBigCard ? 85 : width * 0.1,
+                      child: Icon(
+                        Icons.no_photography,
+                        size: 25,
+                      ),
                     ),
-                  ),
-                ),
-                errorWidget: (context, url, error) => SizedBox(
-                  height: isBigCard ? 60 : height * 0.2,
-                  width: isBigCard ? 85 : width * 0.1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: const Icon(
-                      Icons.error_outline_rounded,
-                      size: 25,
-                    ),
-                  ),
-                ),
-                placeholder: (context, val) => SizedBox(
-                  height: isBigCard ? 60 : 30,
-                  width: isBigCard ? 85 : 30,
-                  child: Center(
-                    child: const LoadingWidget(),
-                  ),
-                ),
-              ),
             ),
             SizedBox(
               width: width * 0.02,

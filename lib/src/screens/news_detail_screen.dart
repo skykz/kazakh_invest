@@ -61,50 +61,66 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       centerTitle: true,
                       title: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          "${snapshot.data['name']}",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            height: 1,
-                            shadows: [
-                              Shadow(
-                                blurRadius: 10,
-                                color: Colors.black54,
-                                offset: Offset(0, 0),
-                              )
-                            ],
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            "${snapshot.data['date']}",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              height: 1,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 10,
+                                  color: Colors.black54,
+                                  offset: Offset(0, 0),
+                                )
+                              ],
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
                         ),
                       ),
-                      background: CachedNetworkImage(
-                        fadeInDuration: Duration(milliseconds: 350),
-                        imageUrl: '${snapshot.data['picture']}',
-                        imageBuilder: (context, imageProvider) => Container(
-                          height: height * 0.33,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
+                      background: snapshot.data['picture'] != null
+                          ? CachedNetworkImage(
+                              fadeInDuration: const Duration(milliseconds: 150),
+                              imageUrl: '${snapshot.data['picture']}',
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                height: height * 0.33,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: const Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Icon(
+                                    Icons.error_outline_rounded,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                              placeholder: (context, val) =>
+                                  const LoadingWidget(),
+                            )
+                          : SizedBox(
+                              height: height * 0.33,
+                              width: double.infinity,
+                              child: const Icon(
+                                Icons.no_photography,
+                                size: 40,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: const Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Icon(
-                              Icons.error_outline_rounded,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                        placeholder: (context, val) => const LoadingWidget(),
-                      ),
                     ),
                   ),
                 ];
@@ -112,11 +128,37 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
-                  child: Center(
-                    child: Html(
-                      data: '${snapshot.data['detail']}',
-                      showImages: true,
-                    ),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(
+                              color: const Color.fromRGBO(96, 182, 227, 1),
+                              width: 4,
+                            ),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            '${snapshot.data['name']}',
+                            style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Html(
+                        data: '${snapshot.data['detail']}',
+                        showImages: true,
+                      ),
+                    ],
                   ),
                 ),
               ),

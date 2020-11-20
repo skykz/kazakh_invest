@@ -12,8 +12,15 @@ class HomeProvider extends BaseProvider {
   Completer<WebViewController> get getController => _controller;
 
   setControllerNull() {
-    this._controller = null;
     this._controller = Completer<WebViewController>();
+    notifyListeners();
+  }
+
+  final ValueNotifier<int> _pageNotifier = new ValueNotifier<int>(0);
+  ValueNotifier<int> get getPageNotifier => _pageNotifier;
+
+  setPageIndicator(int index) {
+    _pageNotifier.value = index;
     notifyListeners();
   }
 
@@ -32,9 +39,6 @@ class HomeProvider extends BaseProvider {
 
   List<dynamic> _mainMenu = List();
   List<dynamic> get getMainMenuData => _mainMenu;
-
-  List<dynamic> _mainSubMenu = List();
-  List<dynamic> get getMainMenuSubData => _mainSubMenu;
 
   dynamic _mainVideo;
   dynamic get getMainVideo => _mainVideo;
@@ -57,6 +61,14 @@ class HomeProvider extends BaseProvider {
   int _selectedNewsId;
   int get getSelectedNewsId => _selectedNewsId;
 
+  String _codeRegion;
+  String get getCodeRegion => _codeRegion;
+
+  setRegionCode(String val) {
+    this._codeRegion = val;
+    notifyListeners();
+  }
+
   setNewsId(int id) {
     this._selectedNewsId = id;
     notifyListeners();
@@ -74,6 +86,7 @@ class HomeProvider extends BaseProvider {
 
   setCurrentScreenIndex(int val) {
     this._currentPageIndex = val;
+    if (val == 0) _menuItemIndex = 0;
     notifyListeners();
   }
 
@@ -90,21 +103,17 @@ class HomeProvider extends BaseProvider {
   }
 
   Future getSlidersContent(BuildContext context) async {
-    // setLoadingState(true);
-    await _openApi.getSliders(context, getLangType).then((val) {
+    await _openApi
+        .getSliders(context, getLangType, this._codeRegion)
+        .then((val) {
       this._sliderContent = val;
     });
     notifyListeners();
   }
 
   Future getMainMenu(BuildContext context) async {
-    // setLoadingState(true);
-    this._mainMenu = await _openApi.getMainMenu(context, getLangType);
-    notifyListeners();
-  }
-
-  Future getMainSubMenu(BuildContext context) async {
-    this._mainMenu = await _openApi.getSubMenu(context, getLangType);
+    this._mainMenu =
+        await _openApi.getMainMenu(context, getLangType, this._codeRegion);
     notifyListeners();
   }
 
@@ -119,8 +128,8 @@ class HomeProvider extends BaseProvider {
   }
 
   Future getSuccessHistoryData(BuildContext context) async {
-    this._successHistory =
-        await _openApi.getSuccessHistory(context, getLangType);
+    this._successHistory = await _openApi.getSuccessHistory(
+        context, getLangType, this._codeRegion);
     notifyListeners();
   }
 
@@ -133,7 +142,8 @@ class HomeProvider extends BaseProvider {
   }
 
   Future getSuccessHistoryById(int id, BuildContext context) async {
-    return await _openApi.getSuccessHistoryById(context, getLangType, id);
+    return await _openApi.getSuccessHistoryById(
+        context, getLangType, id, this._codeRegion);
   }
 
   Future getNewsDetailById(int id, BuildContext context) async {

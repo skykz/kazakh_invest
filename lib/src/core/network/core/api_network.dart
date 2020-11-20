@@ -7,7 +7,6 @@ import 'dart:developer';
 import 'package:kazakh_invest/src/core/data/conts/conts.dart';
 
 class NetworkCall {
-  // next three lines makes this class a Singleton
   static NetworkCall _instance = NetworkCall.internal();
 
   NetworkCall.internal();
@@ -38,8 +37,8 @@ class NetworkCall {
     try {
       response =
           await dio.request(path, queryParameters: requestParams, data: body);
-      log(" - Response - ", name: " api route -- $path");
-      log(" +++++ ${_decoder.convert(response.data.toString())}");
+      // log(" - Response - ", name: " api route -- $path");
+      // log(" +++++ ${_decoder.convert(response.data.toString())}");
       return _decodedRes = _decoder.convert(response.data.toString());
     } on DioError catch (error) {
       log(' --- req main errors +++++++++ $error');
@@ -92,7 +91,6 @@ void handleError(DioError error, BuildContext context) {
       SnackBar(
         duration: Duration(seconds: 20),
         backgroundColor: Colors.red[600],
-        behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),

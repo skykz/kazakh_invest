@@ -30,10 +30,10 @@ class NewsBigCardWidget extends StatelessWidget {
                       fit: BoxFit.cover,
                       height: height * 0.22,
                       width: double.infinity,
-                      fadeInDuration: Duration(milliseconds: 350),
+                      fadeInDuration: Duration(milliseconds: 150),
                       imageUrl: imageUrl,
                       imageBuilder: (context, imageProvider) => Container(
-                        height: height * 0.22,
+                        height: height * 0.23,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             image: DecorationImage(
@@ -61,10 +61,9 @@ class NewsBigCardWidget extends StatelessWidget {
                       ),
                       placeholder: (context, val) => const LoadingWidget(),
                     )
-                  : Container(
-                      height: height * 0.22,
+                  : SizedBox(
+                      height: height * 0.23,
                       width: double.infinity,
-                      decoration: BoxDecoration(),
                       child: const Icon(
                         Icons.no_photography_rounded,
                         size: 50,
@@ -104,6 +103,7 @@ class NewsBigCardWidget extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.grey[300],
                           fontSize: 12,
+                          height: 3,
                         ),
                       ),
                       Text(
@@ -112,8 +112,9 @@ class NewsBigCardWidget extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
+                          height: 1,
                         ),
-                        maxLines: 3,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],

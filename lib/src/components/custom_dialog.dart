@@ -188,7 +188,7 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
               padding: const EdgeInsets.all(10),
               child: Text(
                 setLinkTitle(homeProvider),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 17,
                 ),
@@ -208,7 +208,7 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),
-                  child: Text(
+                  child: const Text(
                     'No',
                     style: TextStyle(
                       color: Colors.white,
@@ -223,7 +223,7 @@ class _CustomActionDialogState extends State<CustomActionDialog> {
                     launch(widget.link);
                     Navigator.of(context).pop(true);
                   },
-                  child: Text(
+                  child: const Text(
                     'Open',
                     style: TextStyle(
                       color: Colors.white,
