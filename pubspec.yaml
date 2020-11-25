@@ -16,14 +16,10 @@ dependencies:
   dio: 3.0.9
   #for svg pictures
   flutter_svg: 0.19.0
-  #for store local values
-  shared_preferences: 0.5.12
   #provider package for state management
   provider: 4.3.2
   #to download and cache images
   cached_network_image: 2.3.0
-  #file permission
-  permission_handler: 5.0.1
   #for video playing
   chewie: 0.9.10
   #animated dots
