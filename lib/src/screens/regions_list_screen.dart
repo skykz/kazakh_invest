@@ -28,6 +28,7 @@ class _RegionListScreenState extends State<RegionListScreen> {
     final homeProvider = Provider.of<HomeProvider>(context);
 
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         homeProvider.setCurrentScreenIndex(0);
       },

@@ -1,4 +1,4 @@
-package com.example.kazakh_invest
+package kz.kaz.invest
 
 import io.flutter.embedding.android.FlutterActivity
 

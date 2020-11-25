@@ -39,8 +39,6 @@ class _SlidersWidgetState extends State<SlidersWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // final homeProvider = Provider.of<HomeProvider>(context);
-
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -125,7 +123,9 @@ class _SlidersWidgetState extends State<SlidersWidget> {
               Padding(
                 padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
                 child: Text(
-                  '${homeProvider.getSliderContent['title']}',
+                  Platform.isAndroid
+                      ? '${homeProvider.getSliderContent['title']}'
+                      : '',
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 25,

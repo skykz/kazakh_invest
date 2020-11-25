@@ -25,6 +25,7 @@ class _NewsDetailScreenState extends State<HistorySuccessDetailScreen> {
     final homeProvider = Provider.of<HomeProvider>(context);
 
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         homeProvider.setCurrentScreenIndex(2);
       },

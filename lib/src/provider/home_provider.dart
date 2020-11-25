@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:kazakh_invest/src/core/network/repository/network_calls.dart';
@@ -109,6 +110,7 @@ class HomeProvider extends BaseProvider {
       this._sliderContent = val;
     });
     notifyListeners();
+    log("++++++++++++++++++++++++++++ $_codeRegion");
   }
 
   Future getMainMenu(BuildContext context) async {
@@ -134,7 +136,10 @@ class HomeProvider extends BaseProvider {
   }
 
   Future getNewsCategory(BuildContext context) async {
-    return await _openApi.getCategeoryNews(context, getLangType);
+    log("${this._codeRegion}");
+
+    return await _openApi.getCategeoryNews(
+        context, getLangType, this._codeRegion);
   }
 
   Future getNewsCategoryById(int categoryId, BuildContext context) async {
@@ -147,6 +152,9 @@ class HomeProvider extends BaseProvider {
   }
 
   Future getNewsDetailById(int id, BuildContext context) async {
-    return await _openApi.getNewsDetailById(context, getLangType, id);
+    log("${this._codeRegion}");
+
+    return await _openApi.getNewsDetailById(
+        context, getLangType, id, this._codeRegion);
   }
 }

@@ -138,12 +138,15 @@ class KazakhInvestOpenApi {
   }
 
   Future<dynamic> getCategeoryNews(
-      BuildContext context, String langtype) async {
+      BuildContext context, String langtype, String _regionCode) async {
     dynamic response = await _networkCall.doRequestMain(
         path: NEWS_GET_CATEGORY,
         method: 'GET',
         context: context,
-        requestParams: {'lang': langtype.toString()});
+        requestParams: {
+          'lang': langtype.toString(),
+          'region_code': _regionCode,
+        });
 
     return response;
   }
@@ -186,7 +189,7 @@ class KazakhInvestOpenApi {
   }
 
   Future<dynamic> getNewsDetailById(
-      BuildContext context, String langtype, int id) async {
+      BuildContext context, String langtype, int id, String _regionCode) async {
     dynamic response = await _networkCall.doRequestMain(
         path: NEWS_GET_BY_ID,
         method: 'GET',
@@ -194,6 +197,7 @@ class KazakhInvestOpenApi {
         requestParams: {
           'lang': langtype.toString(),
           'id': id,
+          'region_code': _regionCode,
         });
 
     return response;

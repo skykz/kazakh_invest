@@ -25,6 +25,7 @@ class _RegionListScreenState extends State<HistorySuccessScreen> {
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         homeProvider.setCurrentScreenIndex(0);
       },
