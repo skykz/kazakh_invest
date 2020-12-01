@@ -79,7 +79,7 @@ class AppDrawer extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 45),
                                 child: Text(
-                                  'Все регионы',
+                                  setRegionTitle(context),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -160,7 +160,6 @@ class AppDrawer extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: Container(
-                                              height: 35,
                                               decoration: BoxDecoration(
                                                 border: Border(
                                                   left: BorderSide(
@@ -172,7 +171,6 @@ class AppDrawer extends StatelessWidget {
                                               child: InkWell(
                                                 onTap: () {
                                                   Navigator.of(context).pop();
-
                                                   provider
                                                       .setMenuItemIndex(index);
 
@@ -184,16 +182,12 @@ class AppDrawer extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                     left: 50,
                                                     top: 10,
-                                                    bottom: 10,
                                                   ),
                                                   child: Text(
                                                     provider.getMainMenuData[
                                                             index]['submenu'][i]
                                                         ['title'],
                                                     textAlign: TextAlign.start,
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
                                                     style: const TextStyle(
                                                         fontSize: 13),
                                                   ),
@@ -310,6 +304,23 @@ class AppDrawer extends StatelessWidget {
         break;
       case 'kz':
         return "Сұраныс жіберу";
+        break;
+      default:
+        return null;
+    }
+  }
+
+  String setRegionTitle(BuildContext context) {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    switch (homeProvider.getLangType) {
+      case 'ru':
+        return "Все регионы";
+        break;
+      case 'en':
+        return "All regions";
+        break;
+      case 'kz':
+        return "Барлық аудандар";
         break;
       default:
         return null;

@@ -246,270 +246,273 @@ class _SlidersWidgetState extends State<SlidersWidget> {
   _builSecondScreen() {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: Container(
-                height: 120,
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.25),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          homeProvider.getSliderContent['secondry_slider'][0]
-                              ['title'],
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          homeProvider.getSliderContent['secondry_slider'][0]
-                              ['sub_title'],
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        homeProvider.getSliderContent['secondry_slider'][0]
-                            ['content'],
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.white,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: Container(
-                height: 120,
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.25),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          homeProvider.getSliderContent['secondry_slider'][1]
-                              ['title'],
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          homeProvider.getSliderContent['secondry_slider'][1]
-                              ['sub_title'],
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        homeProvider.getSliderContent['secondry_slider'][1]
-                            ['content'],
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.white,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.25),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              homeProvider.getSliderContent['secondry_slider']
+                                  [0]['title'],
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              homeProvider.getSliderContent['secondry_slider']
+                                  [0]['sub_title'],
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                           Text(
-                            homeProvider.getSliderContent['secondry_slider'][2]
-                                ['title'],
+                            homeProvider.getSliderContent['secondry_slider'][0]
+                                ['content'],
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 13,
                               color: Colors.white,
                             ),
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            fadeInDuration: const Duration(milliseconds: 150),
-                            imageUrl:
-                                "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                            imageBuilder: (context, imageProvider) => Container(
-                              height: 60,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Center(
-                              child: const SizedBox(
-                                height: 60,
-                                width: 80,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Icon(
-                                    Icons.error_outline_rounded,
-                                    size: 25,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            placeholder: (context, val) => Center(
-                              child: const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: LoadingWidget(),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    homeProvider
-                                            .getSliderContent['secondry_slider']
-                                        [2]['content'],
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.white,
-                                    ),
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Center(
-                                    child: OutlineButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      hoverColor: Colors.white,
-                                      borderSide: BorderSide(
-                                        color: Colors.grey[500],
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      child: const Text(
-                                        "Подробнее",
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        if (homeProvider
-                                                .getSliderContent[
-                                                    'secondry_slider'][2]
-                                                    ['link']
-                                                .length !=
-                                            0) {
-                                          homeProvider.setControllerNull();
-
-                                          homeProvider.setCurrentScreenIndex(4);
-                                          homeProvider.setWebLink(homeProvider
-                                                  .getSliderContent[
-                                              'secondry_slider'][2]['link']);
-                                        }
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+            const SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    height: 120,
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              homeProvider.getSliderContent['secondry_slider']
+                                  [1]['title'],
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              homeProvider.getSliderContent['secondry_slider']
+                                  [1]['sub_title'],
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            homeProvider.getSliderContent['secondry_slider'][1]
+                                ['content'],
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                homeProvider.getSliderContent['secondry_slider']
+                                    [2]['title'],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                fadeInDuration:
+                                    const Duration(milliseconds: 150),
+                                imageUrl:
+                                    "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  height: 60,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Center(
+                                  child: const SizedBox(
+                                    height: 60,
+                                    width: 80,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Icon(
+                                        Icons.error_outline_rounded,
+                                        size: 25,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                placeholder: (context, val) => Center(
+                                  child: const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: LoadingWidget(),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        homeProvider.getSliderContent[
+                                            'secondry_slider'][2]['content'],
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.white,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Center(
+                                        child: OutlineButton(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          hoverColor: Colors.white,
+                                          borderSide: BorderSide(
+                                            color: Colors.grey[500],
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          child: const Text(
+                                            "Подробнее",
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            if (homeProvider
+                                                    .getSliderContent[
+                                                        'secondry_slider'][2]
+                                                        ['link']
+                                                    .length !=
+                                                0) {
+                                              homeProvider.setControllerNull();
+
+                                              homeProvider
+                                                  .setCurrentScreenIndex(4);
+                                              homeProvider.setWebLink(
+                                                  homeProvider.getSliderContent[
+                                                          'secondry_slider'][2]
+                                                      ['link']);
+                                            }
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -577,8 +580,6 @@ class _SlidersWidgetState extends State<SlidersWidget> {
                                       style: TextStyle(
                                         color: Colors.white,
                                       ),
-                                      maxLines: 8,
-                                      overflow: TextOverflow.ellipsis,
                                     )
                                   ],
                                 ),
