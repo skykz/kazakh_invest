@@ -30,7 +30,7 @@ class CustomListWidget extends StatelessWidget {
                       strokeWidth: 2,
                     )
                   : const CupertinoActivityIndicator(
-                      radius: 15,
+                      radius: 12,
                     ),
             ),
           );

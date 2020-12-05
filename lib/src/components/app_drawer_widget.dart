@@ -13,6 +13,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return Drawer(
       child: Stack(
@@ -124,7 +125,7 @@ class AppDrawer extends StatelessWidget {
                                 title: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 40),
+                                    padding: EdgeInsets.only(left: width * 0.1),
                                     child: Text(
                                       provider.getMainMenuData[index]['title'],
                                       style: const TextStyle(
@@ -148,9 +149,7 @@ class AppDrawer extends StatelessWidget {
                                         : 0,
                                     shrinkWrap: true,
                                     addAutomaticKeepAlives: true,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    itemExtent: 40,
+                                    padding: const EdgeInsets.only(bottom: 15),
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (BuildContext context, int i) {
                                       return Row(
@@ -159,38 +158,27 @@ class AppDrawer extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  left: BorderSide(
-                                                    color: Colors.transparent,
-                                                    width: 5,
-                                                  ),
-                                                ),
-                                              ),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator.of(context).pop();
-                                                  provider
-                                                      .setMenuItemIndex(index);
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                                provider
+                                                    .setMenuItemIndex(index);
 
-                                                  _switchScreen(
-                                                      provider, index, i);
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    left: 50,
-                                                    top: 10,
-                                                  ),
-                                                  child: Text(
-                                                    provider.getMainMenuData[
-                                                            index]['submenu'][i]
-                                                        ['title'],
-                                                    textAlign: TextAlign.start,
-                                                    style: const TextStyle(
-                                                        fontSize: 13),
-                                                  ),
+                                                _switchScreen(
+                                                    provider, index, i);
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: width * 0.15,
+                                                    top: 8,
+                                                    bottom: 8),
+                                                child: Text(
+                                                  provider.getMainMenuData[
+                                                          index]['submenu'][i]
+                                                      ['title'],
+                                                  textAlign: TextAlign.start,
+                                                  style: const TextStyle(
+                                                      fontSize: 13),
                                                 ),
                                               ),
                                             ),

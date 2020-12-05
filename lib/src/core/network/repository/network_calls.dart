@@ -151,8 +151,8 @@ class KazakhInvestOpenApi {
     return response;
   }
 
-  Future<dynamic> getCategoryById(
-      BuildContext context, String langtype, int categoryId) async {
+  Future<dynamic> getCategoryById(BuildContext context, String langtype,
+      int categoryId, String _regionCode) async {
     dynamic response = await _networkCall.doRequestMain(
         path: NEWS_GET_BY_CATEGORY,
 
@@ -162,6 +162,7 @@ class KazakhInvestOpenApi {
         requestParams: {
           'lang': langtype.toString(),
           'category_id': categoryId,
+          'region_code': _regionCode,
         });
 
     return response;

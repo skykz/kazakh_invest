@@ -143,7 +143,8 @@ class HomeProvider extends BaseProvider {
   }
 
   Future getNewsCategoryById(int categoryId, BuildContext context) async {
-    return await _openApi.getCategoryById(context, getLangType, categoryId);
+    return await _openApi.getCategoryById(
+        context, getLangType, categoryId, this._codeRegion);
   }
 
   Future getSuccessHistoryById(int id, BuildContext context) async {
